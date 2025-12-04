@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -11,12 +11,28 @@ interface DrawnRune extends Rune {
   reversed: boolean;
 }
 
+interface SavedReading {
+  id: string;
+  date: string;
+  spreadName: string;
+  runes: DrawnRune[];
+  interpretation: string;
+}
+
 export default function Index() {
   const [selectedSpread, setSelectedSpread] = useState<RuneSpread | null>(null);
   const [drawnRunes, setDrawnRunes] = useState<DrawnRune[]>([]);
   const [interpretation, setInterpretation] = useState<string>("");
   const [isDrawing, setIsDrawing] = useState(false);
   const [selectedRuneInfo, setSelectedRuneInfo] = useState<Rune | null>(null);
+  const [savedReadings, setSavedReadings] = useState<SavedReading[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('runeReadings');
+    if (saved) {
+      setSavedReadings(JSON.parse(saved));
+    }
+  }, []);
 
   const drawRunes = (spread: RuneSpread) => {
     setIsDrawing(true);
@@ -159,6 +175,37 @@ export default function Index() {
     setInterpretation(text);
   };
 
+  const saveReading = () => {
+    if (!selectedSpread || drawnRunes.length === 0) return;
+    
+    const newReading: SavedReading = {
+      id: Date.now().toString(),
+      date: new Date().toLocaleString('ru-RU'),
+      spreadName: selectedSpread.name,
+      runes: drawnRunes,
+      interpretation: interpretation
+    };
+    
+    const updated = [newReading, ...savedReadings];
+    setSavedReadings(updated);
+    localStorage.setItem('runeReadings', JSON.stringify(updated));
+    toast.success("Гадание сохранено");
+  };
+
+  const deleteReading = (id: string) => {
+    const updated = savedReadings.filter(r => r.id !== id);
+    setSavedReadings(updated);
+    localStorage.setItem('runeReadings', JSON.stringify(updated));
+    toast.success("Гадание удалено");
+  };
+
+  const loadReading = (reading: SavedReading) => {
+    setSelectedSpread(runesSpreads.find(s => s.name === reading.spreadName) || null);
+    setDrawnRunes(reading.runes);
+    setInterpretation(reading.interpretation);
+    toast.success("Гадание загружено");
+  };
+
   const resetSpread = () => {
     setSelectedSpread(null);
     setDrawnRunes([]);
@@ -166,7 +213,14 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-secondary/20">
+    <div className="min-h-screen relative">
+      <div 
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/2e33d6f7-c82f-4381-9f7c-b9898a4cd797.jpg)',
+          filter: 'brightness(0.4)'
+        }}
+      />
       <div className="sacred-geometry fixed inset-0 opacity-5 pointer-events-none" />
       
       <div className="container mx-auto px-4 py-8 relative z-10">
@@ -184,10 +238,14 @@ export default function Index() {
         </header>
 
         <Tabs defaultValue="divination" className="w-full max-w-6xl mx-auto">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="divination" className="font-cinzel">
               <Icon name="Sparkles" className="mr-2 h-4 w-4" />
               Гадание
+            </TabsTrigger>
+            <TabsTrigger value="history" className="font-cinzel">
+              <Icon name="History" className="mr-2 h-4 w-4" />
+              История
             </TabsTrigger>
             <TabsTrigger value="handbook" className="font-cinzel">
               <Icon name="Book" className="mr-2 h-4 w-4" />
@@ -317,7 +375,16 @@ export default function Index() {
                       </Card>
                     )}
 
-                    <div className="flex justify-center">
+                    <div className="flex justify-center gap-4">
+                      <Button
+                        onClick={saveReading}
+                        size="lg"
+                        variant="secondary"
+                        className="font-cinzel"
+                      >
+                        <Icon name="Save" className="mr-2 h-5 w-5" />
+                        Сохранить гадание
+                      </Button>
                       <Button
                         onClick={resetSpread}
                         size="lg"
@@ -408,6 +475,71 @@ export default function Index() {
                     </p>
                   </div>
                 </Card>
+              )}
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="history" className="animate-fade-in">
+            <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
+              <h2 className="text-3xl font-cinzel font-bold mb-6 text-center">
+                История гаданий
+              </h2>
+              
+              {savedReadings.length === 0 ? (
+                <div className="text-center py-12">
+                  <Icon name="BookOpen" className="mx-auto h-24 w-24 mb-6 text-muted-foreground animate-float" />
+                  <p className="text-lg text-muted-foreground font-cormorant">
+                    У вас пока нет сохранённых гаданий
+                  </p>
+                </div>
+              ) : (
+                <ScrollArea className="h-[600px] pr-4">
+                  <div className="space-y-4">
+                    {savedReadings.map((reading) => (
+                      <Card 
+                        key={reading.id} 
+                        className="p-6 bg-secondary/30 hover:bg-secondary/50 transition-colors cursor-pointer"
+                        onClick={() => loadReading(reading)}
+                      >
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="text-xl font-cinzel font-bold text-primary mb-1">
+                              {reading.spreadName}
+                            </h3>
+                            <p className="text-sm text-muted-foreground">
+                              {reading.date}
+                            </p>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              deleteReading(reading.id);
+                            }}
+                          >
+                            <Icon name="Trash2" className="h-4 w-4 text-destructive" />
+                          </Button>
+                        </div>
+                        
+                        <div className="flex gap-2 mb-4">
+                          {reading.runes.map((rune, i) => (
+                            <div 
+                              key={i}
+                              className={`text-3xl ${rune.reversed ? 'rotate-180' : ''}`}
+                            >
+                              {rune.symbol}
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <p className="text-sm text-muted-foreground font-cormorant line-clamp-2">
+                          {reading.interpretation.replace(/##|###/g, '').substring(0, 150)}...
+                        </p>
+                      </Card>
+                    ))}
+                  </div>
+                </ScrollArea>
               )}
             </Card>
           </TabsContent>
