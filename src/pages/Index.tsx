@@ -379,8 +379,7 @@ export default function Index() {
                       <Button
                         onClick={saveReading}
                         size="lg"
-                        variant="secondary"
-                        className="font-cinzel"
+                        className="font-cinzel wooden-button"
                       >
                         <Icon name="Save" className="mr-2 h-5 w-5" />
                         Сохранить гадание
@@ -388,7 +387,7 @@ export default function Index() {
                       <Button
                         onClick={resetSpread}
                         size="lg"
-                        className="font-cinzel"
+                        className="font-cinzel wooden-button"
                       >
                         <Icon name="RotateCcw" className="mr-2 h-5 w-5" />
                         Новое гадание
@@ -554,7 +553,7 @@ export default function Index() {
                 Функция распознавания рун через камеру будет доступна в следующей версии. 
                 Вы сможете сфотографировать физические руны, и AI автоматически определит их значение.
               </p>
-              <Button size="lg" disabled className="font-cinzel">
+              <Button size="lg" disabled className="font-cinzel wooden-button">
                 <Icon name="Camera" className="mr-2 h-5 w-5" />
                 Скоро
               </Button>
