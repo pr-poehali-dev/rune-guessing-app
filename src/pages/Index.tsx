@@ -263,11 +263,11 @@ export default function Index() {
                 {runesSpreads.map((spread) => (
                   <Card
                     key={spread.id}
-                    className="p-6 hover:scale-105 transition-all duration-300 cursor-pointer bg-card/80 backdrop-blur border-primary/30 hover:border-primary hover:shadow-lg hover:shadow-primary/20"
+                    className="p-6 hover:scale-105 transition-all duration-300 cursor-pointer wooden-card"
                     onClick={() => drawRunes(spread)}
                   >
-                    <div className="text-center">
-                      <div className="text-5xl mb-4 text-primary animate-float">
+                    <div className="text-center relative z-10">
+                      <div className="text-5xl mb-4 animate-float">
                         {spread.positions === 1 ? "ᚱ" : 
                          spread.positions === 3 ? "ᚦᚱᛁ" : 
                          spread.id === "love" ? "♥️" :
@@ -275,13 +275,13 @@ export default function Index() {
                          spread.id === "health" ? "✨" :
                          spread.id === "nine" ? "🌳" : "✤"}
                       </div>
-                      <h3 className="text-2xl font-cinzel font-bold mb-2">
+                      <h3 className="text-2xl font-cinzel mb-2 wooden-card-title">
                         {spread.name}
                       </h3>
-                      <p className="text-muted-foreground font-cormorant mb-4">
+                      <p className="font-cormorant mb-4 wooden-card-text">
                         {spread.description}
                       </p>
-                      <div className="text-sm text-accent font-semibold">
+                      <div className="text-sm font-semibold wooden-card-text">
                         {spread.positions} {spread.positions === 1 ? "руна" : spread.positions < 5 ? "руны" : "рун"}
                       </div>
                     </div>
