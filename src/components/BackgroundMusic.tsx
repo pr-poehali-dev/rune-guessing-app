@@ -16,13 +16,21 @@ export default function BackgroundMusic() {
     audio.volume = volume;
     audio.preload = "auto";
     
+    console.log('🎵 Audio element created, loading...');
+    
     audio.addEventListener('canplaythrough', () => {
+      console.log('✅ Audio loaded and ready');
       setIsLoaded(true);
     });
     
-    audio.addEventListener('error', () => {
+    audio.addEventListener('error', (e) => {
+      console.log('❌ Audio load error:', e);
       audio.src = "https://cdn.pixabay.com/audio/2023/03/13/audio_6d5dd3c944.mp3";
       audio.load();
+    });
+    
+    audio.addEventListener('loadstart', () => {
+      console.log('⏳ Audio loading started');
     });
     
     audioRef.current = audio;
@@ -36,34 +44,38 @@ export default function BackgroundMusic() {
   useEffect(() => {
     const startMusic = async () => {
       if (audioRef.current && isLoaded && !userInteracted) {
+        console.log('🎵 Attempting autoplay...');
         try {
           await audioRef.current.play();
+          console.log('✅ Autoplay successful!');
           setIsPlaying(true);
           setUserInteracted(true);
         } catch (err) {
-          console.log('Autoplay blocked, waiting for user interaction');
+          console.log('⏸️ Autoplay blocked, waiting for user click');
         }
       }
     };
 
     const handleInteraction = async () => {
       if (!userInteracted && isLoaded && audioRef.current) {
+        console.log('👆 User interaction detected, starting music...');
         try {
           await audioRef.current.play();
+          console.log('✅ Music started!');
           setIsPlaying(true);
           setUserInteracted(true);
           document.removeEventListener('click', handleInteraction);
           document.removeEventListener('touchstart', handleInteraction);
         } catch (err) {
-          console.log('Failed to start music:', err);
+          console.log('❌ Failed to start music:', err);
         }
       }
     };
 
     if (isLoaded && !userInteracted) {
       startMusic();
-      document.addEventListener('click', handleInteraction);
-      document.addEventListener('touchstart', handleInteraction);
+      document.addEventListener('click', handleInteraction, { once: false });
+      document.addEventListener('touchstart', handleInteraction, { once: false });
     }
 
     return () => {
@@ -79,19 +91,25 @@ export default function BackgroundMusic() {
   }, [volume]);
 
   const togglePlay = async () => {
-    if (!audioRef.current || !isLoaded) return;
+    if (!audioRef.current || !isLoaded) {
+      console.log('⚠️ Cannot play: audio not ready');
+      return;
+    }
 
     if (isPlaying) {
+      console.log('⏸️ Pausing music');
       audioRef.current.pause();
       localStorage.setItem('runesMusicPlaying', 'false');
       setIsPlaying(false);
     } else {
+      console.log('▶️ Playing music');
       try {
         await audioRef.current.play();
         localStorage.setItem('runesMusicPlaying', 'true');
         setIsPlaying(true);
+        console.log('✅ Music playing');
       } catch (err) {
-        console.log('Play prevented:', err);
+        console.log('❌ Play error:', err);
       }
     }
   };
