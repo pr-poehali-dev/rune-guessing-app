@@ -8,6 +8,7 @@ import SpreadSelector from "@/components/SpreadSelector";
 import RuneResult from "@/components/RuneResult";
 import SavedReadings from "@/components/SavedReadings";
 import RuneLibrary from "@/components/RuneLibrary";
+import RuneTalismans from "@/components/RuneTalismans";
 
 interface DrawnRune extends Rune {
   reversed: boolean;
@@ -298,7 +299,7 @@ export default function Index() {
         </header>
 
         <Tabs defaultValue="spreads" className="space-y-6">
-          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 wooden-button">
+          <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-4 wooden-button">
             <TabsTrigger value="spreads" className="font-cinzel text-lg font-bold">
               <Icon name="Sparkles" className="mr-2 h-5 w-5" />
               Расклады
@@ -306,6 +307,10 @@ export default function Index() {
             <TabsTrigger value="library" className="font-cinzel text-lg font-bold">
               <Icon name="BookOpen" className="mr-2 h-5 w-5" />
               Библиотека
+            </TabsTrigger>
+            <TabsTrigger value="talismans" className="font-cinzel text-lg font-bold">
+              <Icon name="Sparkles" className="mr-2 h-5 w-5" />
+              Талисманы
             </TabsTrigger>
             <TabsTrigger value="history" className="font-cinzel text-lg font-bold">
               <Icon name="History" className="mr-2 h-5 w-5" />
@@ -356,6 +361,10 @@ export default function Index() {
               selectedRune={selectedRuneInfo} 
               onSelectRune={setSelectedRuneInfo} 
             />
+          </TabsContent>
+
+          <TabsContent value="talismans">
+            <RuneTalismans />
           </TabsContent>
 
           <TabsContent value="history">
