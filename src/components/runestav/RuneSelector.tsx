@@ -43,33 +43,36 @@ export default function RuneSelector({
   return (
     <TooltipProvider delayDuration={300}>
       <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="font-cinzel text-2xl font-bold flex items-center gap-2">СТАРШИЙ ФУТАРК</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="font-cinzel text-3xl font-bold flex items-center gap-2">
+            <Icon name="Grid3x3" className="h-7 w-7" />
+            Elder Futhark
+          </h3>
           {hasAnalysis && (
-            <div className="flex gap-2 text-xs">
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-primary/30 border-2 border-primary"></div>
-                <span className="text-muted-foreground text-2xl">Подходит</span>
+            <div className="flex gap-3 text-sm">
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded-full bg-primary/30 border-2 border-primary"></div>
+                <span className="text-muted-foreground">Подходит</span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-3 h-3 rounded-full bg-muted/30"></div>
-                <span className="text-muted-foreground text-2xl">Не подходит</span>
+              <div className="flex items-center gap-1.5">
+                <div className="w-4 h-4 rounded-full bg-muted/30"></div>
+                <span className="text-muted-foreground">Не подходит</span>
               </div>
             </div>
           )}
         </div>
 
         {hasAnalysis && (
-          <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg py-2.5">
-            <p className="font-cormorant text-muted-foreground flex items-center gap-2 text-xl text-center">
-              <Icon name="Info" className="h-4 w-4 text-primary" />
+          <div className="mb-5 p-4 bg-primary/5 border border-primary/20 rounded-lg">
+            <p className="font-cormorant text-muted-foreground flex items-center gap-2 text-base leading-relaxed">
+              <Icon name="Info" className="h-5 w-5 text-primary flex-shrink-0" />
               Подходящие руны отображаются в начале списка. Рекомендуется использовать 3-7 рун в руноставе.
             </p>
           </div>
         )}
         
         <ScrollArea className="h-[600px] pr-4">
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {sortedRunes.map((rune) => {
               const status = getRuneStatus(rune.id);
               const isRecommended = status === "recommended";
@@ -82,39 +85,39 @@ export default function RuneSelector({
                     <div
                       onClick={() => addRune(rune)}
                       className={cn(
-                        "relative group p-4 bg-card/50 rounded-lg border cursor-pointer transition-all",
+                        "relative group p-5 bg-card/50 rounded-lg border cursor-pointer transition-all",
                         isRecommended && "border-primary/50 bg-primary/5 hover:border-primary hover:scale-105 shadow-lg shadow-primary/20",
                         isNotRecommended && "opacity-40 hover:opacity-60 border-border hover:border-border",
                         !isRecommended && !isNotRecommended && "border-border hover:border-primary/50 hover:scale-105"
                       )}
                     >
                       <div className={cn(
-                        "text-5xl text-center mb-2 transition-transform",
+                        "text-6xl text-center mb-3 transition-transform",
                         isRecommended && "rune-glow group-hover:scale-110",
                         !isRecommended && "group-hover:scale-110"
                       )}>
                         {rune.symbol}
                       </div>
                       <div className="text-center">
-                        <p className="font-cinzel font-semibold text-sm">
+                        <p className="font-cinzel font-semibold text-base">
                           {rune.name}
                         </p>
-                        <p className="text-xs text-muted-foreground mt-1">
+                        <p className="text-sm text-muted-foreground mt-1.5">
                           {rune.element}
                         </p>
                       </div>
                       {isRecommended && (
-                        <div className="absolute top-2 right-2">
-                          <Icon name="Sparkles" className="h-4 w-4 text-primary" />
+                        <div className="absolute top-3 right-3">
+                          <Icon name="Sparkles" className="h-5 w-5 text-primary" />
                         </div>
                       )}
                     </div>
                   </TooltipTrigger>
                   <TooltipContent 
                     side="top" 
-                    className="max-w-[300px] bg-card/95 backdrop-blur border-primary/30 font-cormorant"
+                    className="max-w-[320px] bg-card/95 backdrop-blur border-primary/30 font-cormorant"
                   >
-                    <p className="text-sm">{reason}</p>
+                    <p className="text-base leading-relaxed">{reason}</p>
                   </TooltipContent>
                 </Tooltip>
               );
