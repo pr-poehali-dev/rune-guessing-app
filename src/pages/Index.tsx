@@ -253,10 +253,10 @@ export default function Index() {
       <div 
         className="fixed inset-0 bg-no-repeat bg-cover bg-center -z-10" 
         style={{ 
-          backgroundImage: 'url("https://images.unsplash.com/photo-1518562923427-c4d58f0ca2c7?w=1920&q=80&auto=format&fit=crop")',
+          backgroundImage: 'url("https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/e3d4fffd-f747-402d-8936-1d07cedffcdf.jpg")',
         }}
       />
-      <div className="fixed inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/80 -z-10" />
+      <div className="fixed inset-0 bg-gradient-to-b from-white/5 via-transparent to-green-900/10 -z-10" />
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         <header className="text-center space-y-4 mb-12">
           <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">

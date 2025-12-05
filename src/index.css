@@ -122,14 +122,18 @@
 
   .wooden-button {
     position: relative;
-    background: linear-gradient(145deg, #c9a97a, #8b6f47);
-    border: 2px solid #6b5943;
+    background: linear-gradient(
+      145deg,
+      rgba(201, 169, 122, 0.5),
+      rgba(139, 111, 71, 0.4)
+    );
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(107, 89, 67, 0.6);
     box-shadow:
-      inset 0 1px 0 rgba(201, 169, 122, 0.9),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.4),
-      0 4px 8px rgba(0, 0, 0, 0.5),
-      0 8px 16px rgba(0, 0, 0, 0.3),
-      0 0 20px rgba(201, 169, 122, 0.3);
+      inset 0 1px 0 rgba(201, 169, 122, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+      0 4px 8px rgba(0, 0, 0, 0.3),
+      0 8px 16px rgba(0, 0, 0, 0.2);
     text-shadow:
       2px 2px 3px rgba(0, 0, 0, 0.9),
       0 0 8px rgba(255, 223, 186, 0.7);
@@ -139,20 +143,24 @@
     transition: all 0.2s ease;
     background-image: repeating-linear-gradient(
       90deg,
-      rgba(139, 111, 71, 0.15) 0px,
-      rgba(201, 169, 122, 0.15) 2px,
-      rgba(139, 111, 71, 0.15) 4px
+      rgba(139, 111, 71, 0.1) 0px,
+      rgba(201, 169, 122, 0.1) 2px,
+      rgba(139, 111, 71, 0.1) 4px
     );
   }
 
   .wooden-button:hover {
-    background: linear-gradient(145deg, #dbb98f, #9d7f52);
+    background: linear-gradient(
+      145deg,
+      rgba(219, 185, 143, 0.6),
+      rgba(157, 127, 82, 0.5)
+    );
     box-shadow:
-      inset 0 1px 0 rgba(219, 185, 143, 0.9),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.5),
-      0 6px 12px rgba(0, 0, 0, 0.6),
-      0 10px 20px rgba(0, 0, 0, 0.4),
-      0 0 30px rgba(219, 185, 143, 0.5);
+      inset 0 1px 0 rgba(219, 185, 143, 0.4),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 6px 12px rgba(0, 0, 0, 0.4),
+      0 10px 20px rgba(0, 0, 0, 0.3),
+      0 0 30px rgba(219, 185, 143, 0.4);
     transform: translateY(-2px);
   }
 
@@ -165,31 +173,41 @@
   }
 
   .wooden-button:disabled {
-    background: linear-gradient(145deg, #6b5943, #4a3c28);
+    background: linear-gradient(
+      145deg,
+      rgba(107, 89, 67, 0.3),
+      rgba(74, 60, 40, 0.2)
+    );
     opacity: 0.6;
     cursor: not-allowed;
   }
 
   .wooden-card {
     position: relative;
-    background: linear-gradient(135deg, #8b6f47 0%, #5d4e37 50%, #6b5943 100%);
-    border: 3px solid #4a3c28;
+    background: linear-gradient(
+      135deg,
+      rgba(139, 111, 71, 0.4) 0%,
+      rgba(93, 78, 55, 0.3) 50%,
+      rgba(107, 89, 67, 0.4) 100%
+    );
+    backdrop-filter: blur(12px);
+    border: 3px solid rgba(74, 60, 40, 0.5);
     box-shadow:
-      inset 0 2px 4px rgba(139, 111, 71, 0.4),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-      0 8px 16px rgba(0, 0, 0, 0.4),
-      0 4px 8px rgba(0, 0, 0, 0.3);
+      inset 0 2px 4px rgba(139, 111, 71, 0.2),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.2),
+      0 8px 16px rgba(0, 0, 0, 0.3),
+      0 4px 8px rgba(0, 0, 0, 0.2);
     background-image:
       repeating-linear-gradient(
         90deg,
-        rgba(93, 78, 55, 0.15) 0px,
-        rgba(139, 111, 71, 0.1) 3px,
-        rgba(93, 78, 55, 0.15) 6px
+        rgba(93, 78, 55, 0.1) 0px,
+        rgba(139, 111, 71, 0.05) 3px,
+        rgba(93, 78, 55, 0.1) 6px
       ),
       repeating-linear-gradient(
         0deg,
         transparent 0px,
-        rgba(74, 60, 40, 0.1) 50px,
+        rgba(74, 60, 40, 0.05) 50px,
         transparent 100px
       );
   }
@@ -230,12 +248,17 @@
   }
 
   .wooden-card:hover {
-    background: linear-gradient(135deg, #9d7f52 0%, #6b5943 50%, #7a6550 100%);
+    background: linear-gradient(
+      135deg,
+      rgba(157, 127, 82, 0.5) 0%,
+      rgba(107, 89, 67, 0.4) 50%,
+      rgba(122, 101, 80, 0.5) 100%
+    );
     box-shadow:
-      inset 0 2px 4px rgba(157, 127, 82, 0.4),
-      inset 0 -2px 4px rgba(0, 0, 0, 0.4),
-      0 12px 24px rgba(0, 0, 0, 0.5),
-      0 6px 12px rgba(0, 0, 0, 0.4);
-    border-color: #5a4a35;
+      inset 0 2px 4px rgba(157, 127, 82, 0.3),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.3),
+      0 12px 24px rgba(0, 0, 0, 0.4),
+      0 6px 12px rgba(0, 0, 0, 0.3);
+    border-color: rgba(90, 74, 53, 0.6);
   }
 }
