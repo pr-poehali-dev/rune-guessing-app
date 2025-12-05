@@ -262,9 +262,7 @@ export default function Index() {
           <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
             Рунический Оракул
           </h1>
-          <p className="text-muted-foreground text-lg font-cormorant max-w-2xl mx-auto">
-            Прикоснись к древней мудрости Старшего Футарка. Руны откроют путь к твоей судьбе.
-          </p>
+          <p className="font-cormorant max-w-2xl mx-auto text-orange-200 text-lg font-extrabold">Прикоснись к древней мудрости Старшего Футарка. Пусть Руны откроют путь к твоей судьбе.</p>
         </header>
 
         <Tabs defaultValue="spreads" className="space-y-6">
