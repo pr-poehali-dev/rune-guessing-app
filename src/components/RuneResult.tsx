@@ -26,30 +26,23 @@ export default function RuneResult({
 }: RuneResultProps) {
   const getBackgroundImage = (spreadId: string) => {
     const backgrounds: Record<string, string> = {
-      'single': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
-      'three': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/e38bf317-a753-4fae-aef4-aa92e242a402.jpg',
-      'five': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
-      'seven': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
-      'nine': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
-      'cross': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/2d53b3c3-8622-4a71-a055-40a7fd2ae0c4.jpg',
+      'one-rune': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
+      'three-norns': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/e38bf317-a753-4fae-aef4-aa92e242a402.jpg',
+      'five-runes': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
+      'seven-runes': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
+      'nine-worlds': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/50d7c63f-8ba1-494f-8dc3-7e28c85871ee.jpg',
+      'runic-cross': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/2d53b3c3-8622-4a71-a055-40a7fd2ae0c4.jpg',
       'shamanic-throw': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/5d8a3d85-822c-475b-92b0-7fa2b873e70f.jpg',
       'thors-hammer': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/d07b2dad-c8b8-42b7-97ff-2fe6ae6ca440.jpg',
       'celtic-cross': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/e986afbc-e7d8-489c-a0a3-879f633fa6a5.jpg',
-      'love': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/c9785659-1eb8-4b0b-af57-b66be7ded0d6.jpg',
-      'career': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/7e6e36e9-5809-46ad-963a-2f30fc672fea.jpg',
+      'love-relations': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/c9785659-1eb8-4b0b-af57-b66be7ded0d6.jpg',
+      'career-calling': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/7e6e36e9-5809-46ad-963a-2f30fc672fea.jpg',
       'personal-growth': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/96097731-4039-4209-beab-1c41ec26b6bc.jpg'
     };
     return backgrounds[spreadId] || '';
   };
 
   const bgImage = getBackgroundImage(selectedSpread.id);
-  const bgStyle = bgImage ? {
-    backgroundImage: `url(${bgImage})`,
-    backgroundSize: 'contain',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    backgroundOpacity: 0.1
-  } : {};
 
   return (
     <>
@@ -104,10 +97,17 @@ export default function RuneResult({
 
       {interpretation && (
         <Card className="p-8 bg-card/80 backdrop-blur border-primary/30 relative overflow-hidden">
-          <div 
-            className="absolute inset-0 opacity-10 pointer-events-none"
-            style={bgStyle}
-          />
+          {bgImage && (
+            <div 
+              className="absolute inset-0 opacity-10 pointer-events-none"
+              style={{
+                backgroundImage: `url(${bgImage})`,
+                backgroundSize: 'contain',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            />
+          )}
           <div className="relative z-10">
             <h3 className="font-cinzel text-5xl font-bold mb-6 text-primary">
               🔮 Общая интерпретация расклада
@@ -143,10 +143,17 @@ export default function RuneResult({
       )}
 
       <Card className="p-8 bg-card/80 backdrop-blur border-primary/30 relative overflow-hidden">
-        <div 
-          className="absolute inset-0 opacity-10 pointer-events-none"
-          style={bgStyle}
-        />
+        {bgImage && (
+          <div 
+            className="absolute inset-0 opacity-10 pointer-events-none"
+            style={{
+              backgroundImage: `url(${bgImage})`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
+        )}
         <div className="relative z-10">
           <h3 className="font-cinzel text-5xl font-bold mb-6 text-primary">
             📖 Подробное объяснение рун

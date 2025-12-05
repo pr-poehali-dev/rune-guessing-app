@@ -101,7 +101,7 @@ export default function Index() {
   const generateInterpretation = (runes: DrawnRune[], spread: RuneSpread) => {
     let text = '';
     
-    if (spread.id === "single") {
+    if (spread.id === "one-rune") {
       const rune = runes[0];
       const position = spread.positionMeanings[0];
       text += `${position} представлена руной ${rune.name} ${rune.symbol}. `;
@@ -112,7 +112,7 @@ export default function Index() {
       text += rune.reversed 
         ? `Перевёрнутое положение указывает на блокировку энергии и необходимость внутренней работы. Руны советуют: остановитесь, присмотритесь к ситуации с разных сторон. Ваш урок — принять теневые аспекты и трансформировать их.`
         : `Прямое положение говорит о свободном течении энергии. Вы находитесь в гармонии с потоком жизни. Руны одобряют ваши действия и призывают двигаться вперёд с уверенностью.`;
-    } else if (spread.id === "three") {
+    } else if (spread.id === "three-norns") {
       text += `${spread.positionMeanings[0]} представлено руной ${runes[0].name} ${runes[0].symbol}. `;
       text += runes[0].reversed 
         ? `В перевёрнутом положении это говорит о том, что ${runes[0].reversed} `
@@ -129,7 +129,7 @@ export default function Index() {
         : `${runes[2].upright} Доверьтесь процессу.`;
       
       text += `\n\nТри норны — Урд, Верданди и Скульд — ткут нить вашей судьбы, соединяя прошлое, настоящее и будущее в единый узор судьбы.`;    
-    } else if (spread.id === "cross") {
+    } else if (spread.id === "runic-cross") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} представлена руной ${runes[i].name} ${runes[i].symbol}. `;
         text += runes[i].reversed 
@@ -138,7 +138,7 @@ export default function Index() {
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nРунический крест открывает пять измерений вашей ситуации, показывая суть вопроса, препятствия на пути, источники помощи, возможный результат и глубинные причины происходящего.`;
-    } else if (spread.id === "five") {
+    } else if (spread.id === "five-runes") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} показывает руна ${runes[i].name} ${runes[i].symbol}. `;
         text += runes[i].reversed 
@@ -147,7 +147,7 @@ export default function Index() {
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nПятирунный расклад раскрывает динамику вашей проблемы, показывая центр вопроса, влияния прошлого, возможности будущего, совет рун и потенциальный результат.`;
-    } else if (spread.id === "seven") {
+    } else if (spread.id === "seven-runes") {
       for (let i = 0; i < 7; i++) {
         text += `${spread.positionMeanings[i]} открывает руна ${runes[i].name} ${runes[i].symbol}. `;
         text += runes[i].reversed 
@@ -156,7 +156,7 @@ export default function Index() {
         text += i < 6 ? `\n\n` : '';
       }
       text += `\n\nСемь рун открывают кармический узел вашей судьбы — уроки, которые вы пришли изучить в этой жизни. Прошлое, настоящее и будущее формируют ось времени, а ваша роль, внешние силы, скрытые факторы и итоговый урок показывают полную картину вашего духовного пути.`;
-    } else if (spread.id === "nine") {
+    } else if (spread.id === "nine-worlds") {
       for (let i = 0; i < 9; i++) {
         text += `${spread.positionMeanings[i]} представляет руна ${runes[i].name} ${runes[i].symbol}. `;
         text += runes[i].reversed 
@@ -165,7 +165,7 @@ export default function Index() {
         text += i < 8 ? `\n\n` : '';
       }
       text += `\n\nДевять миров Иггдрасиля открываются перед вами в этом шаманском раскладе. Каждый мир представляет свой аспект вашей ситуации: от высших целей и ресурсов до страхов и тайных знаний, завершаясь окончательной трансформацией.`;
-    } else if (spread.id === "love") {
+    } else if (spread.id === "love-relations") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} показывает руна ${runes[i].name} ${runes[i].symbol}. `;
         text += runes[i].reversed 
@@ -174,7 +174,7 @@ export default function Index() {
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nРасклад на любовь и отношения открывает динамику вашей связи, показывая ваше состояние, энергию партнёра, характер связи, препятствия и перспективы развития отношений.`;
-    } else if (spread.id === "career") {
+    } else if (spread.id === "career-calling") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} открывает руна ${runes[i].name} ${runes[i].symbol}. `;
         text += runes[i].reversed 
