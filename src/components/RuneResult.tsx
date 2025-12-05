@@ -35,17 +35,15 @@ export default function RuneResult({
       'shamanic-throw': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/5d8a3d85-822c-475b-92b0-7fa2b873e70f.jpg',
       'thors-hammer': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/d07b2dad-c8b8-42b7-97ff-2fe6ae6ca440.jpg',
       'celtic-cross': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/e986afbc-e7d8-489c-a0a3-879f633fa6a5.jpg',
-      'love-relations': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/c9785659-1eb8-4b0b-af57-b66be7ded0d6.jpg',
+      'love-relations': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/418b129f-853a-4917-b5d7-0bdac2f7f4e8.jpg',
       'career-calling': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/7e6e36e9-5809-46ad-963a-2f30fc672fea.jpg',
+      'health-energy': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/966b8f4e-d816-4e4b-bbf2-e13716c0f8ab.jpg',
       'personal-growth': 'https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/96097731-4039-4209-beab-1c41ec26b6bc.jpg'
     };
     return backgrounds[spreadId] || '';
   };
 
   const bgImage = getBackgroundImage(selectedSpread.id);
-  
-  console.log('Selected spread ID:', selectedSpread.id);
-  console.log('Background image URL:', bgImage);
 
   return (
     <>
