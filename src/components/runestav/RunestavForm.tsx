@@ -53,9 +53,7 @@ export default function RunestavForm({
         </div>
 
         <div>
-          <label className="block text-base font-cinzel font-semibold mb-3">
-            Намерение (цель рунослава)
-          </label>
+          <label className="block text-base font-cinzel font-semibold mb-3">Намерение (цель руностава)</label>
           <Textarea
             value={intention}
             onChange={(e) => setIntention(e.target.value)}
