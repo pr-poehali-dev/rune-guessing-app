@@ -96,15 +96,19 @@ export default function RuneResult({
       </Card>
 
       {interpretation && (
-        <Card className="p-8 bg-card/80 backdrop-blur border-primary/30 relative overflow-hidden">
+        <Card className="p-8 border-primary/30 relative overflow-hidden" style={{
+          backgroundColor: 'rgba(var(--card) / 0.8)',
+          backdropFilter: 'blur(12px)'
+        }}>
           {bgImage && (
             <div 
-              className="absolute inset-0 opacity-10 pointer-events-none"
+              className="absolute inset-0 pointer-events-none z-0"
               style={{
                 backgroundImage: `url(${bgImage})`,
-                backgroundSize: 'contain',
+                backgroundSize: 'cover',
                 backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
+                backgroundRepeat: 'no-repeat',
+                opacity: 0.15
               }}
             />
           )}
@@ -142,15 +146,19 @@ export default function RuneResult({
         </Card>
       )}
 
-      <Card className="p-8 bg-card/80 backdrop-blur border-primary/30 relative overflow-hidden">
+      <Card className="p-8 border-primary/30 relative overflow-hidden" style={{
+        backgroundColor: 'rgba(var(--card) / 0.8)',
+        backdropFilter: 'blur(12px)'
+      }}>
         {bgImage && (
           <div 
-            className="absolute inset-0 opacity-10 pointer-events-none"
+            className="absolute inset-0 pointer-events-none z-0"
             style={{
               backgroundImage: `url(${bgImage})`,
-              backgroundSize: 'contain',
+              backgroundSize: 'cover',
               backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
+              backgroundRepeat: 'no-repeat',
+              opacity: 0.15
             }}
           />
         )}
