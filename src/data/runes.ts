@@ -268,7 +268,7 @@ export const runesSpreads: RuneSpread[] = [
     description: "Простой расклад для быстрого ответа на конкретный вопрос",
     positions: 1,
     positionMeanings: ["Ответ на ваш вопрос"],
-    icon: "🔮"
+    icon: "ᚠ"
   },
   {
     id: "three",
@@ -276,7 +276,7 @@ export const runesSpreads: RuneSpread[] = [
     description: "Классический расклад прошлое-настоящее-будущее",
     positions: 3,
     positionMeanings: ["Прошлое", "Настоящее", "Будущее"],
-    icon: "⏳"
+    icon: "ᚦ"
   },
   {
     id: "cross",
@@ -290,7 +290,7 @@ export const runesSpreads: RuneSpread[] = [
       "Результат",
       "Основа ситуации"
     ],
-    icon: "✨"
+    icon: "ᚨ"
   },
   {
     id: "five",
@@ -304,7 +304,7 @@ export const runesSpreads: RuneSpread[] = [
       "Совет",
       "Окончательный результат"
     ],
-    icon: "🌟"
+    icon: "ᚱ"
   },
   {
     id: "seven",
@@ -320,7 +320,7 @@ export const runesSpreads: RuneSpread[] = [
       "Скрытые факторы",
       "Итог и урок"
     ],
-    icon: "🔱"
+    icon: "ᚲ"
   },
   {
     id: "nine",
@@ -338,7 +338,7 @@ export const runesSpreads: RuneSpread[] = [
       "Свартальвхейм (скрытое)",
       "Хель (итог)"
     ],
-    icon: "🌳"
+    icon: "ᚷ"
   },
   {
     id: "love",
@@ -352,7 +352,7 @@ export const runesSpreads: RuneSpread[] = [
       "Препятствия",
       "Перспектива"
     ],
-    icon: "💖"
+    icon: "ᚹ"
   },
   {
     id: "career",
@@ -366,7 +366,7 @@ export const runesSpreads: RuneSpread[] = [
       "Что мешает",
       "Путь успеха"
     ],
-    icon: "💼"
+    icon: "ᚺ"
   },
   {
     id: "health",

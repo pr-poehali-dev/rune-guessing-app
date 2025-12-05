@@ -17,8 +17,10 @@ export default function SpreadSelector({ onSelectSpread, isDrawing }: SpreadSele
           onClick={() => !isDrawing && onSelectSpread(spread)}
         >
           <div className="text-center space-y-4">
-            <div className="text-6xl mb-4 rune-glow group-hover:scale-110 transition-transform">
-              {spread.icon}
+            <div className="mb-4 flex justify-center">
+              <span className="rune-glow">
+                {spread.icon}
+              </span>
             </div>
             <h3 className="wooden-card-title font-cinzel text-4xl">
               {spread.name}
