@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { runesSpreads, type RuneSpread } from "@/data/runes";
 
@@ -14,32 +13,24 @@ export default function SpreadSelector({ onSelectSpread, isDrawing }: SpreadSele
       {runesSpreads.map((spread) => (
         <Card 
           key={spread.id} 
-          className="wooden-card p-6 hover:scale-105 transition-transform cursor-pointer"
+          className="wooden-card p-6 hover:scale-105 transition-all cursor-pointer group"
           onClick={() => !isDrawing && onSelectSpread(spread)}
         >
-          <div className="flex items-start gap-4">
-            <div className="text-4xl shrink-0 rune-glow">
+          <div className="text-center space-y-4">
+            <div className="text-6xl mb-4 rune-glow group-hover:scale-110 transition-transform">
               {spread.icon}
             </div>
-            <div className="space-y-2 flex-1">
-              <h3 className="wooden-card-title text-xl font-cinzel">
-                {spread.name}
-              </h3>
-              <p className="wooden-card-text text-sm font-cormorant leading-relaxed">
-                {spread.description}
-              </p>
-              <div className="flex items-center gap-2 text-xs wooden-card-text pt-2">
-                <Icon name="Sparkles" className="h-3 w-3" />
-                <span>{spread.positions} {spread.positions === 1 ? 'руна' : spread.positions < 5 ? 'руны' : 'рун'}</span>
-              </div>
+            <h3 className="wooden-card-title text-2xl font-cinzel">
+              {spread.name}
+            </h3>
+            <p className="wooden-card-text text-sm font-cormorant leading-relaxed min-h-[3rem]">
+              {spread.description}
+            </p>
+            <div className="flex items-center justify-center gap-2 text-xs wooden-card-text pt-2 border-t border-amber-900/30">
+              <Icon name="Sparkles" className="h-4 w-4" />
+              <span className="font-semibold">{spread.positions} {spread.positions === 1 ? 'руна' : spread.positions < 5 ? 'руны' : 'рун'}</span>
             </div>
           </div>
-          <Button 
-            className="w-full mt-4 wooden-button font-cinzel"
-            disabled={isDrawing}
-          >
-            {isDrawing ? "Бросаем руны..." : "Выбрать расклад"}
-          </Button>
         </Card>
       ))}
     </div>

@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
 import { elderFuthark, type Rune, type RuneSpread } from "@/data/runes";
 import { toast } from "sonner";
@@ -27,6 +28,7 @@ export default function Index() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [selectedRuneInfo, setSelectedRuneInfo] = useState<Rune | null>(null);
   const [savedReadings, setSavedReadings] = useState<SavedReading[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem('runeReadings');
@@ -235,9 +237,22 @@ export default function Index() {
     toast.success("Гадание удалено");
   };
 
+  const handleCameraUpload = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      toast.info("Функция распознавания рун в разработке");
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90 py-12 px-4">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen relative py-12 px-4">
+      <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1518562923427-c4d58f0ca2c7?w=1920')] bg-cover bg-center bg-no-repeat" />
+      <div className="fixed inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/80" />
+      <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         <header className="text-center space-y-4 mb-12">
           <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
             Рунический Оракул
@@ -265,7 +280,27 @@ export default function Index() {
 
           <TabsContent value="spreads" className="space-y-6">
             {!selectedSpread ? (
-              <SpreadSelector onSelectSpread={drawRunes} isDrawing={isDrawing} />
+              <>
+                <div className="flex justify-center mb-6">
+                  <Button
+                    onClick={handleCameraUpload}
+                    size="lg"
+                    className="wooden-button font-cinzel"
+                  >
+                    <Icon name="Camera" className="mr-2 h-5 w-5" />
+                    Распознать расклад с камеры
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                </div>
+                <SpreadSelector onSelectSpread={drawRunes} isDrawing={isDrawing} />
+              </>
             ) : (
               <div className="space-y-6">
                 {drawnRunes.length > 0 && (
