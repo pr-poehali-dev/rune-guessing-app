@@ -265,22 +265,22 @@ export default function Index() {
             </h1>
           </div>
           <div className="inline-block px-6 py-3 rounded-xl max-w-2xl mx-auto" style={{ background: 'linear-gradient(145deg, rgba(201, 169, 122, 0.4), rgba(139, 111, 71, 0.3))', backdropFilter: 'blur(12px)', border: '2px solid rgba(107, 89, 67, 0.5)' }}>
-            <p className="font-cormorant text-orange-200 text-lg font-extrabold">Прикоснись к древней мудрости Старшего Футарка. Пусть Руны откроют путь к твоей судьбе.</p>
+            <p className="font-cormorant text-amber-100 text-xl md:text-2xl font-extrabold drop-shadow-lg">Прикоснись к древней мудрости Старшего Футарка. Пусть Руны откроют путь к твоей судьбе.</p>
           </div>
         </header>
 
         <Tabs defaultValue="spreads" className="space-y-6">
           <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 wooden-button">
-            <TabsTrigger value="spreads" className="font-cinzel">
-              <Icon name="Sparkles" className="mr-2 h-4 w-4" />
+            <TabsTrigger value="spreads" className="font-cinzel text-lg font-bold">
+              <Icon name="Sparkles" className="mr-2 h-5 w-5" />
               Расклады
             </TabsTrigger>
-            <TabsTrigger value="library" className="font-cinzel">
-              <Icon name="BookOpen" className="mr-2 h-4 w-4" />
+            <TabsTrigger value="library" className="font-cinzel text-lg font-bold">
+              <Icon name="BookOpen" className="mr-2 h-5 w-5" />
               Библиотека
             </TabsTrigger>
-            <TabsTrigger value="history" className="font-cinzel">
-              <Icon name="History" className="mr-2 h-4 w-4" />
+            <TabsTrigger value="history" className="font-cinzel text-lg font-bold">
+              <Icon name="History" className="mr-2 h-5 w-5" />
               История
             </TabsTrigger>
           </TabsList>
