@@ -10,7 +10,7 @@ import SavedReadings from "@/components/SavedReadings";
 import RuneLibrary from "@/components/RuneLibrary";
 import RuneTalismans from "@/components/RuneTalismans";
 import RunestavCreator from "@/components/RunestavCreator";
-import BackgroundMusic from "@/components/BackgroundMusic";
+
 
 interface DrawnRune extends Rune {
   reversed: boolean;
@@ -415,7 +415,6 @@ export default function Index() {
           </TabsContent>
         </Tabs>
       </div>
-      <BackgroundMusic />
     </div>
   );
 }
