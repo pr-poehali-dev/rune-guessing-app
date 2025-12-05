@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import Icon from "@/components/ui/icon";
 import type { Rune, RuneSpread } from "@/data/runes";
 
@@ -41,6 +42,8 @@ export default function RuneResult({
             ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             : drawnRunes.length === 9
             ? "grid-cols-3 md:grid-cols-3 lg:grid-cols-3"
+            : drawnRunes.length === 10
+            ? "grid-cols-2 md:grid-cols-5"
             : "grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
         }`}>
           {drawnRunes.map((rune, index) => (
@@ -72,8 +75,93 @@ export default function RuneResult({
         </div>
       </Card>
 
+      <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
+        <ScrollArea className="h-[600px] pr-4">
+          <div className="space-y-8 font-cormorant">
+            {drawnRunes.map((rune, index) => (
+              <div key={index} className="space-y-4">
+                <div className="flex items-center gap-3">
+                  <span className="text-5xl rune-glow">{rune.symbol}</span>
+                  <div>
+                    <h3 className="font-cinzel text-2xl font-bold">
+                      {rune.name}
+                    </h3>
+                    <p className="text-sm text-accent">
+                      {selectedSpread.positionMeanings[index]}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="pl-4 space-y-3 border-l-2 border-primary/30">
+                  <p className="text-base leading-relaxed">
+                    <span className="font-semibold text-primary">
+                      {rune.reversed ? "Перевёрнутое:" : "Прямое:"}
+                    </span>{" "}
+                    {rune.reversed ? rune.reversed : rune.upright}
+                  </p>
+
+                  {rune.karmicLesson && (
+                    <p className="text-sm italic text-muted-foreground">
+                      <span className="font-semibold">✨ Кармический урок:</span> {rune.karmicLesson}
+                    </p>
+                  )}
+
+                  {rune.advice && (
+                    <p className="text-sm bg-primary/5 p-2 rounded">
+                      <span className="font-semibold">💡 Совет:</span> {rune.advice}
+                    </p>
+                  )}
+
+                  {rune.warning && rune.reversed && (
+                    <p className="text-sm bg-destructive/10 p-2 rounded border border-destructive/30">
+                      <span className="font-semibold">⚠️ Предупреждение:</span> {rune.warning}
+                    </p>
+                  )}
+
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    {rune.events && (
+                      <div className="bg-card/50 p-2 rounded">
+                        <span className="font-semibold">📅 События:</span> {rune.events}
+                      </div>
+                    )}
+                    {rune.health && (
+                      <div className="bg-card/50 p-2 rounded">
+                        <span className="font-semibold">💚 Здоровье:</span> {rune.health}
+                      </div>
+                    )}
+                    {rune.relationships && (
+                      <div className="bg-card/50 p-2 rounded">
+                        <span className="font-semibold">❤️ Отношения:</span> {rune.relationships}
+                      </div>
+                    )}
+                    {rune.work && (
+                      <div className="bg-card/50 p-2 rounded">
+                        <span className="font-semibold">💼 Работа:</span> {rune.work}
+                      </div>
+                    )}
+                  </div>
+
+                  {rune.energy && (
+                    <p className="text-sm italic bg-accent/5 p-2 rounded border border-accent/20">
+                      <span className="font-semibold">⚡ Энергия:</span> {rune.energy}
+                    </p>
+                  )}
+                </div>
+
+                {index < drawnRunes.length - 1 && (
+                  <Separator className="my-6" />
+                )}
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      </Card>
+
       {interpretation && (
         <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
+          <h3 className="font-cinzel text-2xl font-bold mb-4 text-primary">
+            🔮 Общая интерпретация расклада
+          </h3>
           <ScrollArea className="h-[400px] pr-4">
             <div className="prose prose-invert max-w-none font-cormorant">
               {interpretation.split('\n').map((line, i) => {
