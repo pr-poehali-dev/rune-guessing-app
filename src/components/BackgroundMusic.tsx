@@ -12,27 +12,9 @@ export default function BackgroundMusic() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
-    const savedAudioUrl = localStorage.getItem('runesMusicUrl');
-    const defaultMusicUrl = "https://drive.google.com/uc?export=download&id=1o8L2JanFc55Dx53pGhzfPoo3SsegyHTp";
-    
     const audio = new Audio();
-    audio.src = savedAudioUrl || defaultMusicUrl;
     audio.loop = true;
     audio.volume = volume;
-    audio.preload = "auto";
-    
-    console.log('🎵 Loading audio...');
-    
-    audio.addEventListener('canplaythrough', () => {
-      console.log('✅ Audio loaded and ready');
-      setIsLoaded(true);
-    });
-    
-    audio.addEventListener('error', (e) => {
-      console.log('❌ Audio load error:', e);
-      toast.error('Ошибка загрузки музыки. Попробуйте загрузить свой файл.');
-    });
-    
     audioRef.current = audio;
 
     return () => {
@@ -90,7 +72,7 @@ export default function BackgroundMusic() {
     }
   }, [volume]);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
     
@@ -100,15 +82,27 @@ export default function BackgroundMusic() {
     }
     
     const url = URL.createObjectURL(file);
-    localStorage.setItem('runesMusicUrl', url);
     
     if (audioRef.current) {
       audioRef.current.src = url;
       audioRef.current.load();
       
-      audioRef.current.addEventListener('canplaythrough', () => {
+      audioRef.current.addEventListener('canplaythrough', async () => {
         setIsLoaded(true);
-        toast.success('Музыка загружена!');
+        toast.success('Музыка загружена! Нажмите Play.');
+        
+        try {
+          await audioRef.current?.play();
+          setIsPlaying(true);
+          setUserInteracted(true);
+        } catch (err) {
+          console.log('⏸️ Autoplay blocked after upload');
+        }
+      }, { once: true });
+      
+      audioRef.current.addEventListener('error', () => {
+        toast.error('Ошибка загрузки файла');
+        setIsLoaded(false);
       }, { once: true });
     }
   };
