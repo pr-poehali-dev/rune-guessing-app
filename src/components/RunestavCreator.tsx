@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import Icon from "@/components/ui/icon";
 import { elderFuthark, type Rune } from "@/data/runes";
 import { toast } from "sonner";
+import html2canvas from "html2canvas";
 
 interface CreatedRunestav {
   id: string;
@@ -28,6 +29,7 @@ export default function RunestavCreator() {
     return saved ? JSON.parse(saved) : [];
   });
   const [viewingRunestav, setViewingRunestav] = useState<CreatedRunestav | null>(null);
+  const exportRef = useRef<HTMLDivElement>(null);
 
   const addRune = (rune: Rune) => {
     if (selectedRunes.length >= 9) {
@@ -87,6 +89,45 @@ export default function RunestavCreator() {
     localStorage.setItem('createdRunestavs', JSON.stringify(updated));
     setViewingRunestav(null);
     toast.success("Руностав удален");
+  };
+
+  const exportAsImage = async (runestav: CreatedRunestav | null = null) => {
+    const runestavToExport = runestav || {
+      name: runestavName,
+      runes: selectedRunes,
+      intention: intention,
+      description: description,
+      date: new Date().toLocaleString('ru-RU')
+    };
+
+    if (runestavToExport.runes.length === 0) {
+      toast.error("Нечего экспортировать");
+      return;
+    }
+
+    if (!exportRef.current) {
+      toast.error("Ошибка экспорта");
+      return;
+    }
+
+    try {
+      const canvas = await html2canvas(exportRef.current, {
+        backgroundColor: '#0f0a1f',
+        scale: 2,
+        logging: false,
+      });
+      
+      const image = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `${runestavToExport.name || 'runestav'}.png`;
+      link.href = image;
+      link.click();
+      
+      toast.success("Руностав сохранен как изображение!");
+    } catch (error) {
+      toast.error("Ошибка при создании изображения");
+      console.error(error);
+    }
   };
 
   const analyzeCompatibility = () => {
@@ -297,6 +338,16 @@ export default function RunestavCreator() {
                 <Icon name="RotateCcw" className="mr-2 h-5 w-5" />
                 Начать заново
               </Button>
+              <Button
+                onClick={() => exportAsImage()}
+                size="lg"
+                variant="outline"
+                disabled={selectedRunes.length === 0}
+                className="wooden-button font-cinzel"
+              >
+                <Icon name="Download" className="h-5 w-5 mr-2" />
+                Экспорт
+              </Button>
             </div>
           </div>
         </Card>
@@ -433,9 +484,73 @@ export default function RunestavCreator() {
               <div className="text-xs text-muted-foreground">
                 Создан: {viewingRunestav.date}
               </div>
+
+              <div className="flex gap-3 mt-4">
+                <Button
+                  onClick={() => exportAsImage(viewingRunestav)}
+                  variant="outline"
+                  className="flex-1 wooden-button font-cinzel"
+                >
+                  <Icon name="Download" className="h-4 w-4 mr-2" />
+                  Экспортировать как изображение
+                </Button>
+              </div>
             </div>
           </Card>
         )}
+      </div>
+
+      {/* Hidden export canvas */}
+      <div className="fixed -left-[9999px] -top-[9999px]">
+        <div
+          ref={exportRef}
+          className="w-[800px] p-12 bg-gradient-to-br from-primary/20 via-card to-secondary/20 border-4 border-primary/50 rounded-lg"
+        >
+          <div className="text-center mb-8">
+            <h1 className="font-cinzel text-4xl font-bold text-primary mb-2">
+              {viewingRunestav ? viewingRunestav.name : runestavName}
+            </h1>
+            <p className="text-muted-foreground font-cormorant">
+              {viewingRunestav ? viewingRunestav.date : new Date().toLocaleString('ru-RU')}
+            </p>
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-6 mb-8">
+            {(viewingRunestav ? viewingRunestav.runes : selectedRunes).map((rune, i) => (
+              <div key={i} className="text-center">
+                <div className="text-7xl rune-glow mb-2">{rune.symbol}</div>
+                <p className="text-sm font-cinzel">{rune.name}</p>
+                <p className="text-xs text-muted-foreground">{rune.element}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t-2 border-primary/30 pt-6">
+            <h3 className="font-cinzel text-xl font-semibold mb-3 flex items-center gap-2">
+              <span className="text-2xl">🎯</span>
+              Намерение
+            </h3>
+            <p className="font-cormorant text-base leading-relaxed">
+              {viewingRunestav ? viewingRunestav.intention : intention}
+            </p>
+
+            {(viewingRunestav ? viewingRunestav.description : description) && (
+              <>
+                <h3 className="font-cinzel text-xl font-semibold mb-3 mt-6 flex items-center gap-2">
+                  <span className="text-2xl">📝</span>
+                  Описание
+                </h3>
+                <p className="font-cormorant text-base leading-relaxed">
+                  {viewingRunestav ? viewingRunestav.description : description}
+                </p>
+              </>
+            )}
+          </div>
+
+          <div className="mt-8 text-center text-xs text-muted-foreground font-cormorant">
+            Создано на poehali.dev
+          </div>
+        </div>
       </div>
     </div>
   );
