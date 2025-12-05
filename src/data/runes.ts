@@ -258,6 +258,7 @@ export interface RuneSpread {
   description: string;
   positions: number;
   positionMeanings: string[];
+  icon: string;
 }
 
 export const runesSpreads: RuneSpread[] = [
@@ -266,14 +267,16 @@ export const runesSpreads: RuneSpread[] = [
     name: "Одна руна",
     description: "Простой расклад для быстрого ответа на конкретный вопрос",
     positions: 1,
-    positionMeanings: ["Ответ на ваш вопрос"]
+    positionMeanings: ["Ответ на ваш вопрос"],
+    icon: "🔮"
   },
   {
     id: "three",
     name: "Три норны",
     description: "Классический расклад прошлое-настоящее-будущее",
     positions: 3,
-    positionMeanings: ["Прошлое", "Настоящее", "Будущее"]
+    positionMeanings: ["Прошлое", "Настоящее", "Будущее"],
+    icon: "⏳"
   },
   {
     id: "cross",
@@ -286,7 +289,8 @@ export const runesSpreads: RuneSpread[] = [
       "Помощь",
       "Результат",
       "Основа ситуации"
-    ]
+    ],
+    icon: "✨"
   },
   {
     id: "five",
@@ -299,7 +303,8 @@ export const runesSpreads: RuneSpread[] = [
       "Будущее влияние",
       "Совет",
       "Окончательный результат"
-    ]
+    ],
+    icon: "🌟"
   },
   {
     id: "seven",
@@ -314,7 +319,8 @@ export const runesSpreads: RuneSpread[] = [
       "Внешние влияния",
       "Скрытые факторы",
       "Итог и урок"
-    ]
+    ],
+    icon: "🔱"
   },
   {
     id: "nine",
@@ -331,7 +337,8 @@ export const runesSpreads: RuneSpread[] = [
       "Нифльхейм (страхи)",
       "Свартальвхейм (скрытое)",
       "Хель (итог)"
-    ]
+    ],
+    icon: "🌳"
   },
   {
     id: "love",
@@ -344,7 +351,8 @@ export const runesSpreads: RuneSpread[] = [
       "Связь между вами",
       "Препятствия",
       "Перспектива"
-    ]
+    ],
+    icon: "💖"
   },
   {
     id: "career",
@@ -357,7 +365,8 @@ export const runesSpreads: RuneSpread[] = [
       "Возможности",
       "Что мешает",
       "Путь успеха"
-    ]
+    ],
+    icon: "💼"
   },
   {
     id: "health",

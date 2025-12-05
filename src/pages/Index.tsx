@@ -250,7 +250,10 @@ export default function Index() {
 
   return (
     <div className="min-h-screen relative py-12 px-4">
-      <div className="fixed inset-0 bg-[url('https://images.unsplash.com/photo-1518562923427-c4d58f0ca2c7?w=1920')] bg-cover bg-center bg-no-repeat" />
+      <div 
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat" 
+        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1518562923427-c4d58f0ca2c7?w=1920&q=80)' }}
+      />
       <div className="fixed inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/80" />
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         <header className="text-center space-y-4 mb-12">
