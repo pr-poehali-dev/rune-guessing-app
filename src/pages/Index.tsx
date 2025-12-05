@@ -98,6 +98,22 @@ export default function Index() {
     return `\n\nВ вашем раскладе обнаружены важные сочетания рун: ${combinations.join(" ")}`;
   };
 
+  const translateElement = (element: string): string => {
+    const translations: Record<string, string> = {
+      'fire': 'огонь',
+      'earth': 'земля',
+      'air': 'воздух',
+      'water': 'вода',
+      'ice': 'лёд',
+      'огонь': 'огонь',
+      'земля': 'земля',
+      'воздух': 'воздух',
+      'вода': 'вода',
+      'лёд': 'лёд'
+    };
+    return translations[element.toLowerCase()] || element;
+  };
+
   const generateInterpretation = (runes: DrawnRune[], spread: RuneSpread) => {
     let text = '';
     
@@ -108,7 +124,7 @@ export default function Index() {
       text += rune.reversed 
         ? `В перевёрнутом положении ${rune.name} говорит: ${rune.reversed} `
         : `В прямом положении ${rune.name} объясняет: ${rune.upright} `;
-      text += `\n\nЭта руна отвечает на ваш вопрос через энергию элемента "${rune.element}". `;
+      text += `\n\nЭта руна отвечает на ваш вопрос через энергию элемента "${translateElement(rune.element)}". `;
       text += rune.reversed 
         ? `Перевёрнутое положение указывает на блокировку энергии и необходимость внутренней работы. Руны советуют: остановитесь, присмотритесь к ситуации с разных сторон. Ваш урок — принять теневые аспекты и трансформировать их.`
         : `Прямое положение говорит о свободном течении энергии. Вы находитесь в гармонии с потоком жизни. Руны одобряют ваши действия и призывают двигаться вперёд с уверенностью.`;
@@ -234,7 +250,7 @@ export default function Index() {
       text += `Вселенная поддерживает ваши намерения. Действуйте смело и уверенно. `;
     }
     
-    const elements = runes.map(r => r.element);
+    const elements = runes.map(r => translateElement(r.element));
     const elementCounts = elements.reduce((acc, el) => {
       acc[el] = (acc[el] || 0) + 1;
       return acc;
@@ -245,15 +261,15 @@ export default function Index() {
     
     if (dominantElement) {
       text += `\n\nВ вашем раскладе доминирует стихия "${dominantElement}". `;
-      if (dominantElement === "Земля") {
+      if (dominantElement === "земля") {
         text += `Это время для материализации планов, практичности и терпения. Работайте с кристаллами, ходите босиком по земле.`;
-      } else if (dominantElement === "Воздух") {
+      } else if (dominantElement === "воздух") {
         text += `Это время для общения, обучения и новых идей. Практикуйте дыхательные практики, записывайте инсайты.`;
-      } else if (dominantElement === "Огонь") {
+      } else if (dominantElement === "огонь") {
         text += `Это время для действий, страсти и трансформации. Зажигайте свечи, медитируйте у огня.`;
-      } else if (dominantElement === "Вода") {
+      } else if (dominantElement === "вода") {
         text += `Это время для эмоций, интуиции и исцеления. Принимайте ритуальные ванны, работайте с водой.`;
-      } else if (dominantElement === "Лёд") {
+      } else if (dominantElement === "лёд") {
         text += `Это время для паузы, размышлений и накопления сил. Медитируйте в тишине, практикуйте осознанность.`;
       }
     }
