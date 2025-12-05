@@ -43,9 +43,7 @@ export default function RunestavForm({
       
       <div className="space-y-6">
         <div>
-          <label className="block text-base font-cinzel font-semibold mb-3">
-            Название рунослава
-          </label>
+          <label className="block text-base font-cinzel font-semibold mb-3">Название руностава</label>
           <Input
             value={runestavName}
             onChange={(e) => setRunestavName(e.target.value)}
