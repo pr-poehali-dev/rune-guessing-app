@@ -11,10 +11,11 @@ export default function BackgroundMusic() {
 
   useEffect(() => {
     const audio = new Audio();
-    audio.src = "https://cdn.pixabay.com/audio/2022/03/10/audio_4f0ee99b85.mp3";
+    audio.src = "https://archive.org/download/relaxingsounds/Falls%206%205h%20Gentle%20River%2CStream%20w%20Deep%20Forest%20Ambience-Canada.ogg";
     audio.loop = true;
     audio.volume = volume;
     audio.preload = "auto";
+    audio.crossOrigin = "anonymous";
     
     console.log('🎵 Audio element created, loading...');
     
@@ -25,7 +26,7 @@ export default function BackgroundMusic() {
     
     audio.addEventListener('error', (e) => {
       console.log('❌ Audio load error:', e);
-      audio.src = "https://cdn.pixabay.com/audio/2023/03/13/audio_6d5dd3c944.mp3";
+      audio.src = "https://ia801305.us.archive.org/35/items/relaxingsounds/Rainforest%205h%20Bubbling%20River%20Falls%28gentle%29%2CBirds%2CInsects%2CAnimals-Daytime%2CSouth%20America.ogg";
       audio.load();
     });
     
