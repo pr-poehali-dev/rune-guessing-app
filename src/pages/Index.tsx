@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Icon from "@/components/ui/icon";
-import { elderFuthark, runesSpreads, type Rune, type RuneSpread } from "@/data/runes";
+import { elderFuthark, type Rune, type RuneSpread } from "@/data/runes";
 import { toast } from "sonner";
+import SpreadSelector from "@/components/SpreadSelector";
+import RuneResult from "@/components/RuneResult";
+import SavedReadings from "@/components/SavedReadings";
+import RuneLibrary from "@/components/RuneLibrary";
 
 interface DrawnRune extends Rune {
   reversed: boolean;
@@ -158,21 +159,56 @@ export default function Index() {
     } else if (spread.id === "career") {
       text += `Расклад на карьеру показывает ваш профессиональный путь. `;
       text += `Текущая позиция (${runes[0].name}) ${runes[0].reversed ? "требует переоценки" : "стабильна"}. `;
-      text += `Ваши таланты (${runes[1].name}) связаны с энергией "${runes[1].element}". `;
-      text += `Возможности (${runes[2].name}) ${runes[2].reversed ? "сейчас ограничены, наберитесь терпения" : "открываются перед вами"}. `;
-      text += `Препятствие (${runes[3].name}) показывает область роста. `;
-      text += `Путь к успеху (${runes[4].name}): следуйте своему внутреннему зову.`;
-    } else if (spread.id === "health") {
-      text += `Расклад на здоровье и энергию раскрывает ваше целостное состояние. `;
-      text += `Физическое тело (${runes[0].name}) ${runes[0].reversed ? "нуждается в заботе и внимании" : "в гармонии"}. `;
-      text += `Эмоции (${runes[1].name}) ${runes[1].reversed ? "требуют исцеления" : "в балансе"}. `;
-      text += `Духовная энергия (${runes[2].name}) связана с элементом "${runes[2].element}". `;
-      text += `Путь к исцелению (${runes[3].name}): слушайте своё тело и душу.`;
+      text += `Препятствия (${runes[1].name}) учат вас преодолевать профессиональные вызовы. `;
+      text += `Возможности (${runes[2].name}) открывают новые перспективы. `;
+      text += `Совет (${runes[3].name}): ${runes[3].upright.split(".")[0]}. `;
+      text += `Перспектива (${runes[4].name}): ${runes[4].reversed ? "смените подход к карьере" : "ожидается успех и рост"}.`;
     }
     
     text += analyzeRuneCombinations(runes);
     
+    text += `\n\n### 📿 Магический совет\n\n`;
+    
+    const hasReversed = runes.some(r => r.reversed);
+    if (hasReversed) {
+      text += `Перевёрнутые руны в вашем раскладе не предсказывают беду, а показывают области, требующие внимания и внутренней работы. `;
+      text += `Это призыв к развитию теневых сторон личности. Медитируйте на перевёрнутые руны, принимайте их уроки. `;
+    } else {
+      text += `Все руны в прямом положении — знак гармонии и благоприятного потока энергии. `;
+      text += `Вселенная поддерживает ваши намерения. Действуйте смело и уверенно. `;
+    }
+    
+    const elements = runes.map(r => r.element);
+    const elementCounts = elements.reduce((acc, el) => {
+      acc[el] = (acc[el] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+    
+    const dominantElement = Object.entries(elementCounts)
+      .sort(([, a], [, b]) => b - a)[0]?.[0];
+    
+    if (dominantElement) {
+      text += `\n\nВ вашем раскладе доминирует стихия "${dominantElement}". `;
+      if (dominantElement === "Земля") {
+        text += `Это время для материализации планов, практичности и терпения. Работайте с кристаллами, ходите босиком по земле.`;
+      } else if (dominantElement === "Воздух") {
+        text += `Это время для общения, обучения и новых идей. Практикуйте дыхательные практики, записывайте инсайты.`;
+      } else if (dominantElement === "Огонь") {
+        text += `Это время для действий, страсти и трансформации. Зажигайте свечи, медитируйте у огня.`;
+      } else if (dominantElement === "Вода") {
+        text += `Это время для эмоций, интуиции и исцеления. Принимайте ритуальные ванны, работайте с водой.`;
+      } else if (dominantElement === "Лёд") {
+        text += `Это время для паузы, размышлений и накопления сил. Медитируйте в тишине, практикуйте осознанность.`;
+      }
+    }
+    
     setInterpretation(text);
+  };
+
+  const resetSpread = () => {
+    setSelectedSpread(null);
+    setDrawnRunes([]);
+    setInterpretation("");
   };
 
   const saveReading = () => {
@@ -180,7 +216,7 @@ export default function Index() {
     
     const newReading: SavedReading = {
       id: Date.now().toString(),
-      date: new Date().toLocaleString('ru-RU'),
+      date: new Date().toISOString(),
       spreadName: selectedSpread.name,
       runes: drawnRunes,
       interpretation: interpretation
@@ -199,365 +235,64 @@ export default function Index() {
     toast.success("Гадание удалено");
   };
 
-  const loadReading = (reading: SavedReading) => {
-    setSelectedSpread(runesSpreads.find(s => s.name === reading.spreadName) || null);
-    setDrawnRunes(reading.runes);
-    setInterpretation(reading.interpretation);
-    toast.success("Гадание загружено");
-  };
-
-  const resetSpread = () => {
-    setSelectedSpread(null);
-    setDrawnRunes([]);
-    setInterpretation("");
-  };
-
   return (
-    <div className="min-h-screen relative">
-      <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url(https://cdn.poehali.dev/projects/35588b13-8e32-4550-9b06-f2fe27256a23/files/2e33d6f7-c82f-4381-9f7c-b9898a4cd797.jpg)',
-          filter: 'brightness(0.4)'
-        }}
-      />
-      <div className="sacred-geometry fixed inset-0 opacity-5 pointer-events-none" />
-      
-      <div className="container mx-auto px-4 py-8 relative z-10">
-        <header className="text-center mb-12 animate-fade-in">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <div className="text-6xl animate-glow-pulse">ᚠ</div>
-            <h1 className="text-5xl md:text-7xl font-cinzel font-bold rune-glow">
-              Рунический Оракул
-            </h1>
-            <div className="text-6xl animate-glow-pulse">ᛟ</div>
-          </div>
-          <p className="text-lg md:text-xl text-muted-foreground font-cormorant">
-            Древняя мудрость скандинавских рун
+    <div className="min-h-screen bg-gradient-to-b from-background via-background/95 to-background/90 py-12 px-4">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <header className="text-center space-y-4 mb-12">
+          <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
+            Рунический Оракул
+          </h1>
+          <p className="text-muted-foreground text-lg font-cormorant max-w-2xl mx-auto">
+            Прикоснись к древней мудрости Старшего Футарка. Руны откроют путь к твоей судьбе.
           </p>
         </header>
 
-        <Tabs defaultValue="divination" className="w-full max-w-6xl mx-auto">
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger value="divination" className="font-cinzel">
+        <Tabs defaultValue="spreads" className="space-y-6">
+          <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 wooden-button">
+            <TabsTrigger value="spreads" className="font-cinzel">
               <Icon name="Sparkles" className="mr-2 h-4 w-4" />
-              Гадание
+              Расклады
+            </TabsTrigger>
+            <TabsTrigger value="library" className="font-cinzel">
+              <Icon name="BookOpen" className="mr-2 h-4 w-4" />
+              Библиотека
             </TabsTrigger>
             <TabsTrigger value="history" className="font-cinzel">
               <Icon name="History" className="mr-2 h-4 w-4" />
               История
             </TabsTrigger>
-            <TabsTrigger value="handbook" className="font-cinzel">
-              <Icon name="Book" className="mr-2 h-4 w-4" />
-              Справочник
-            </TabsTrigger>
-            <TabsTrigger value="camera" className="font-cinzel">
-              <Icon name="Camera" className="mr-2 h-4 w-4" />
-              Камера
-            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="divination" className="space-y-8">
+          <TabsContent value="spreads" className="space-y-6">
             {!selectedSpread ? (
-              <div className="grid md:grid-cols-3 gap-6 animate-fade-in">
-                {runesSpreads.map((spread) => (
-                  <Card
-                    key={spread.id}
-                    className="p-6 hover:scale-105 transition-all duration-300 cursor-pointer wooden-card"
-                    onClick={() => drawRunes(spread)}
-                  >
-                    <div className="text-center relative z-10">
-                      <div className="text-5xl mb-4 animate-float">
-                        {spread.positions === 1 ? "ᚱ" : 
-                         spread.positions === 3 ? "ᚦᚱᛁ" : 
-                         spread.id === "love" ? "♥️" :
-                         spread.id === "career" ? "⚔️" :
-                         spread.id === "health" ? "✨" :
-                         spread.id === "nine" ? "🌳" : "✤"}
-                      </div>
-                      <h3 className="text-2xl font-cinzel mb-2 wooden-card-title">
-                        {spread.name}
-                      </h3>
-                      <p className="font-cormorant mb-4 wooden-card-text">
-                        {spread.description}
-                      </p>
-                      <div className="text-sm font-semibold wooden-card-text">
-                        {spread.positions} {spread.positions === 1 ? "руна" : spread.positions < 5 ? "руны" : "рун"}
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
+              <SpreadSelector onSelectSpread={drawRunes} isDrawing={isDrawing} />
             ) : (
-              <div className="space-y-8 animate-fade-in">
-                {isDrawing ? (
-                  <Card className="p-12 text-center bg-card/80 backdrop-blur">
-                    <div className="text-6xl mb-4 animate-spin">ᚦ</div>
-                    <p className="text-xl font-cinzel">Руны выбирают вас...</p>
-                  </Card>
-                ) : (
-                  <>
-                    <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
-                      <h2 className="text-3xl font-cinzel font-bold mb-6 text-center">
-                        {selectedSpread.name}
-                      </h2>
-                      
-                      <div className={`grid gap-6 ${
-                        drawnRunes.length === 1 
-                          ? "grid-cols-1 max-w-xs mx-auto" 
-                          : drawnRunes.length === 3 
-                          ? "grid-cols-1 md:grid-cols-3" 
-                          : drawnRunes.length === 4
-                          ? "grid-cols-2 md:grid-cols-4"
-                          : drawnRunes.length === 7
-                          ? "grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-                          : drawnRunes.length === 9
-                          ? "grid-cols-3 md:grid-cols-3 lg:grid-cols-3"
-                          : "grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
-                      }`}>
-                        {drawnRunes.map((rune, index) => (
-                          <div
-                            key={index}
-                            className="text-center space-y-3 animate-rune-flip"
-                            style={{ animationDelay: `${index * 200}ms` }}
-                          >
-                            <div className={`text-7xl font-bold ${
-                              rune.reversed ? "transform rotate-180" : ""
-                            } rune-glow hover:scale-110 transition-transform`}>
-                              {rune.symbol}
-                            </div>
-                            <div className="space-y-1">
-                              <p className="font-cinzel font-semibold text-lg">
-                                {rune.name}
-                              </p>
-                              <p className="text-sm text-muted-foreground font-cormorant">
-                                {selectedSpread.positionMeanings[index]}
-                              </p>
-                              {rune.reversed && (
-                                <p className="text-xs text-accent font-semibold">
-                                  Перевёрнутая
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </Card>
-
-                    {interpretation && (
-                      <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
-                        <ScrollArea className="h-[400px] pr-4">
-                          <div className="prose prose-invert max-w-none font-cormorant">
-                            {interpretation.split('\n').map((line, i) => {
-                              if (line.startsWith('## ')) {
-                                return (
-                                  <h2 key={i} className="font-cinzel text-3xl mb-4 text-primary">
-                                    {line.replace('## ', '')}
-                                  </h2>
-                                );
-                              } else if (line.startsWith('### ')) {
-                                return (
-                                  <h3 key={i} className="font-cinzel text-xl mt-6 mb-3">
-                                    {line.replace('### ', '')}
-                                  </h3>
-                                );
-                              } else if (line.trim()) {
-                                return (
-                                  <p key={i} className="mb-3 text-base leading-relaxed">
-                                    {line}
-                                  </p>
-                                );
-                              }
-                              return null;
-                            })}
-                          </div>
-                        </ScrollArea>
-                      </Card>
-                    )}
-
-                    <div className="flex justify-center gap-4">
-                      <Button
-                        onClick={saveReading}
-                        size="lg"
-                        className="font-cinzel wooden-button"
-                      >
-                        <Icon name="Save" className="mr-2 h-5 w-5" />
-                        Сохранить гадание
-                      </Button>
-                      <Button
-                        onClick={resetSpread}
-                        size="lg"
-                        className="font-cinzel wooden-button"
-                      >
-                        <Icon name="RotateCcw" className="mr-2 h-5 w-5" />
-                        Новое гадание
-                      </Button>
-                    </div>
-                  </>
+              <div className="space-y-6">
+                {drawnRunes.length > 0 && (
+                  <RuneResult
+                    selectedSpread={selectedSpread}
+                    drawnRunes={drawnRunes}
+                    interpretation={interpretation}
+                    onSave={saveReading}
+                    onReset={resetSpread}
+                  />
                 )}
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="handbook" className="animate-fade-in">
-            <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
-              <h2 className="text-3xl font-cinzel font-bold mb-6 text-center">
-                Старший Футарк
-              </h2>
-              
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                {elderFuthark.map((rune) => (
-                  <Card
-                    key={rune.id}
-                    className="p-4 cursor-pointer hover:scale-105 transition-all hover:border-primary"
-                    onClick={() => setSelectedRuneInfo(rune)}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="text-5xl rune-glow">{rune.symbol}</div>
-                      <div>
-                        <p className="font-cinzel font-bold text-lg">{rune.name}</p>
-                        <p className="text-sm text-muted-foreground">{rune.meaning}</p>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-
-              {selectedRuneInfo && (
-                <Card className="p-6 bg-secondary/50 border-primary">
-                  <div className="flex items-start gap-6 mb-6">
-                    <div className="text-8xl rune-glow animate-float">
-                      {selectedRuneInfo.symbol}
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-3xl font-cinzel font-bold mb-2">
-                        {selectedRuneInfo.name}
-                      </h3>
-                      <p className="text-lg text-muted-foreground mb-4">
-                        {selectedRuneInfo.meaning}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {selectedRuneInfo.keywords.map((keyword, i) => (
-                          <span
-                            key={i}
-                            className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-semibold"
-                          >
-                            {keyword}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <h4 className="font-cinzel font-bold text-lg mb-2 text-accent">
-                        ⬆️ Прямое положение
-                      </h4>
-                      <p className="font-cormorant leading-relaxed">
-                        {selectedRuneInfo.upright}
-                      </p>
-                    </div>
-                    <div>
-                      <h4 className="font-cinzel font-bold text-lg mb-2 text-destructive">
-                        ⬇️ Перевёрнутое положение
-                      </h4>
-                      <p className="font-cormorant leading-relaxed">
-                        {selectedRuneInfo.reversed}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 pt-6 border-t border-border">
-                    <p className="text-sm text-muted-foreground">
-                      <span className="font-semibold">Элемент:</span> {selectedRuneInfo.element}
-                    </p>
-                  </div>
-                </Card>
-              )}
-            </Card>
+          <TabsContent value="library">
+            <RuneLibrary 
+              selectedRune={selectedRuneInfo} 
+              onSelectRune={setSelectedRuneInfo} 
+            />
           </TabsContent>
 
-          <TabsContent value="history" className="animate-fade-in">
-            <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
-              <h2 className="text-3xl font-cinzel font-bold mb-6 text-center">
-                История гаданий
-              </h2>
-              
-              {savedReadings.length === 0 ? (
-                <div className="text-center py-12">
-                  <Icon name="BookOpen" className="mx-auto h-24 w-24 mb-6 text-muted-foreground animate-float" />
-                  <p className="text-lg text-muted-foreground font-cormorant">
-                    У вас пока нет сохранённых гаданий
-                  </p>
-                </div>
-              ) : (
-                <ScrollArea className="h-[600px] pr-4">
-                  <div className="space-y-4">
-                    {savedReadings.map((reading) => (
-                      <Card 
-                        key={reading.id} 
-                        className="p-6 bg-secondary/30 hover:bg-secondary/50 transition-colors cursor-pointer"
-                        onClick={() => loadReading(reading)}
-                      >
-                        <div className="flex justify-between items-start mb-4">
-                          <div>
-                            <h3 className="text-xl font-cinzel font-bold text-primary mb-1">
-                              {reading.spreadName}
-                            </h3>
-                            <p className="text-sm text-muted-foreground">
-                              {reading.date}
-                            </p>
-                          </div>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteReading(reading.id);
-                            }}
-                          >
-                            <Icon name="Trash2" className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </div>
-                        
-                        <div className="flex gap-2 mb-4">
-                          {reading.runes.map((rune, i) => (
-                            <div 
-                              key={i}
-                              className={`text-3xl ${rune.reversed ? 'rotate-180' : ''}`}
-                            >
-                              {rune.symbol}
-                            </div>
-                          ))}
-                        </div>
-                        
-                        <p className="text-sm text-muted-foreground font-cormorant line-clamp-2">
-                          {reading.interpretation.replace(/##|###/g, '').substring(0, 150)}...
-                        </p>
-                      </Card>
-                    ))}
-                  </div>
-                </ScrollArea>
-              )}
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="camera" className="animate-fade-in">
-            <Card className="p-12 text-center bg-card/80 backdrop-blur border-primary/30">
-              <Icon name="Camera" className="mx-auto h-24 w-24 mb-6 text-primary animate-float" />
-              <h2 className="text-3xl font-cinzel font-bold mb-4">
-                Распознавание рун
-              </h2>
-              <p className="text-lg text-muted-foreground font-cormorant mb-6 max-w-2xl mx-auto">
-                Функция распознавания рун через камеру будет доступна в следующей версии. 
-                Вы сможете сфотографировать физические руны, и AI автоматически определит их значение.
-              </p>
-              <Button size="lg" disabled className="font-cinzel wooden-button">
-                <Icon name="Camera" className="mr-2 h-5 w-5" />
-                Скоро
-              </Button>
-            </Card>
+          <TabsContent value="history">
+            <SavedReadings 
+              readings={savedReadings} 
+              onDelete={deleteReading} 
+            />
           </TabsContent>
         </Tabs>
       </div>
