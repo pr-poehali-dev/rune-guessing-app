@@ -77,9 +77,12 @@
       0 0 40px rgba(201, 169, 122, 0.6),
       3px 3px 8px rgba(0, 0, 0, 0.9),
       -2px -2px 6px rgba(255, 223, 186, 0.4);
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
+  }
+
+  .rune-rotate {
     animation: runeRotate 8s ease-in-out infinite;
     transform-style: preserve-3d;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.5));
   }
 
   @keyframes runeRotate {

@@ -18,7 +18,7 @@ export default function SpreadSelector({ onSelectSpread, isDrawing }: SpreadSele
         >
           <div className="text-center space-y-4">
             <div className="mb-4 flex justify-center">
-              <span className="rune-glow">
+              <span className="rune-glow rune-rotate">
                 {spread.icon}
               </span>
             </div>
