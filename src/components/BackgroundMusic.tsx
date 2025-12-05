@@ -15,8 +15,16 @@ export default function BackgroundMusic() {
     audio.volume = volume;
     audio.preload = "auto";
     
-    audio.addEventListener('canplaythrough', () => {
+    audio.addEventListener('canplaythrough', async () => {
       setIsLoaded(true);
+      
+      try {
+        await audio.play();
+        setIsPlaying(true);
+        localStorage.setItem('runesMusicPlaying', 'true');
+      } catch (err) {
+        console.log('Autoplay prevented, user interaction needed:', err);
+      }
     });
     
     audio.addEventListener('error', () => {
