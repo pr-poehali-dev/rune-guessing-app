@@ -6,6 +6,7 @@ export default function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.3);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -15,16 +16,8 @@ export default function BackgroundMusic() {
     audio.volume = volume;
     audio.preload = "auto";
     
-    audio.addEventListener('canplaythrough', async () => {
+    audio.addEventListener('canplaythrough', () => {
       setIsLoaded(true);
-      
-      try {
-        await audio.play();
-        setIsPlaying(true);
-        localStorage.setItem('runesMusicPlaying', 'true');
-      } catch (err) {
-        console.log('Autoplay prevented, user interaction needed:', err);
-      }
     });
     
     audio.addEventListener('error', () => {
@@ -39,6 +32,45 @@ export default function BackgroundMusic() {
       audio.src = '';
     };
   }, []);
+
+  useEffect(() => {
+    const startMusic = async () => {
+      if (audioRef.current && isLoaded && !userInteracted) {
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+          setUserInteracted(true);
+        } catch (err) {
+          console.log('Autoplay blocked, waiting for user interaction');
+        }
+      }
+    };
+
+    const handleInteraction = async () => {
+      if (!userInteracted && isLoaded && audioRef.current) {
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+          setUserInteracted(true);
+          document.removeEventListener('click', handleInteraction);
+          document.removeEventListener('touchstart', handleInteraction);
+        } catch (err) {
+          console.log('Failed to start music:', err);
+        }
+      }
+    };
+
+    if (isLoaded && !userInteracted) {
+      startMusic();
+      document.addEventListener('click', handleInteraction);
+      document.addEventListener('touchstart', handleInteraction);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleInteraction);
+      document.removeEventListener('touchstart', handleInteraction);
+    };
+  }, [isLoaded, userInteracted]);
 
   useEffect(() => {
     if (audioRef.current) {
