@@ -104,6 +104,32 @@
     }
   }
 
+  .animate-gradient-text {
+    background: linear-gradient(
+      90deg,
+      hsl(262, 83%, 68%),
+      hsl(30, 95%, 77%),
+      hsl(262, 83%, 68%),
+      hsl(30, 95%, 77%),
+      hsl(262, 83%, 68%)
+    );
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 6s ease-in-out infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
   .mystical-border {
     border-image: linear-gradient(
         45deg,
