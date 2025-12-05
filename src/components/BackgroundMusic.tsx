@@ -13,29 +13,25 @@ export default function BackgroundMusic() {
 
   useEffect(() => {
     const savedAudioUrl = localStorage.getItem('runesMusicUrl');
+    const defaultMusicUrl = "https://drive.google.com/uc?export=download&id=1o8L2JanFc55Dx53pGhzfPoo3SsegyHTp";
     
     const audio = new Audio();
-    audio.src = savedAudioUrl || "";
+    audio.src = savedAudioUrl || defaultMusicUrl;
     audio.loop = true;
     audio.volume = volume;
     audio.preload = "auto";
     
-    if (savedAudioUrl) {
-      console.log('🎵 Loading saved audio...');
-      
-      audio.addEventListener('canplaythrough', () => {
-        console.log('✅ Audio loaded and ready');
-        setIsLoaded(true);
-      });
-      
-      audio.addEventListener('error', (e) => {
-        console.log('❌ Audio load error:', e);
-        toast.error('Ошибка загрузки музыки. Загрузите новый файл.');
-      });
-    } else {
-      console.log('⚠️ No audio file loaded. Please upload an MP3 file.');
-      toast.info('Загрузите MP3 файл для фоновой музыки');
-    }
+    console.log('🎵 Loading audio...');
+    
+    audio.addEventListener('canplaythrough', () => {
+      console.log('✅ Audio loaded and ready');
+      setIsLoaded(true);
+    });
+    
+    audio.addEventListener('error', (e) => {
+      console.log('❌ Audio load error:', e);
+      toast.error('Ошибка загрузки музыки. Попробуйте загрузить свой файл.');
+    });
     
     audioRef.current = audio;
 
