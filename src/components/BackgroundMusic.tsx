@@ -13,8 +13,23 @@ export default function BackgroundMusic() {
 
   useEffect(() => {
     const audio = new Audio();
+    audio.src = "https://pixeldrain.com/api/file/xpNy93V7";
     audio.loop = true;
     audio.volume = volume;
+    audio.preload = "auto";
+    
+    console.log('🎵 Loading music from Pixeldrain...');
+    
+    audio.addEventListener('canplaythrough', () => {
+      console.log('✅ Music loaded and ready');
+      setIsLoaded(true);
+    });
+    
+    audio.addEventListener('error', (e) => {
+      console.log('❌ Music load error:', e);
+      toast.error('Ошибка загрузки музыки. Используйте кнопку Upload.');
+    });
+    
     audioRef.current = audio;
 
     return () => {
