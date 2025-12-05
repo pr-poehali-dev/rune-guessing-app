@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
+import { toast } from "sonner";
 
 export default function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -8,26 +9,33 @@ export default function BackgroundMusic() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [userInteracted, setUserInteracted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
+    const savedAudioUrl = localStorage.getItem('runesMusicUrl');
+    
     const audio = new Audio();
-    audio.src = "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Simon_Bowman/Interfere/Simon_Bowman_-_01_-_Interlude_1.mp3";
+    audio.src = savedAudioUrl || "";
     audio.loop = true;
     audio.volume = volume;
     audio.preload = "auto";
     
-    console.log('🎵 Audio element created, loading...');
-    
-    audio.addEventListener('canplaythrough', () => {
-      console.log('✅ Audio loaded and ready');
-      setIsLoaded(true);
-    });
-    
-    audio.addEventListener('error', (e) => {
-      console.log('❌ Audio load error:', e);
-      audio.src = "https://www.bensound.com/bensound-music/bensound-slowmotion.mp3";
-      audio.load();
-    });
+    if (savedAudioUrl) {
+      console.log('🎵 Loading saved audio...');
+      
+      audio.addEventListener('canplaythrough', () => {
+        console.log('✅ Audio loaded and ready');
+        setIsLoaded(true);
+      });
+      
+      audio.addEventListener('error', (e) => {
+        console.log('❌ Audio load error:', e);
+        toast.error('Ошибка загрузки музыки. Загрузите новый файл.');
+      });
+    } else {
+      console.log('⚠️ No audio file loaded. Please upload an MP3 file.');
+      toast.info('Загрузите MP3 файл для фоновой музыки');
+    }
     
     audioRef.current = audio;
 
@@ -86,9 +94,34 @@ export default function BackgroundMusic() {
     }
   }, [volume]);
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    if (!file.type.startsWith('audio/')) {
+      toast.error('Пожалуйста, выберите аудио файл');
+      return;
+    }
+    
+    const url = URL.createObjectURL(file);
+    localStorage.setItem('runesMusicUrl', url);
+    
+    if (audioRef.current) {
+      audioRef.current.src = url;
+      audioRef.current.load();
+      
+      audioRef.current.addEventListener('canplaythrough', () => {
+        setIsLoaded(true);
+        toast.success('Музыка загружена!');
+      }, { once: true });
+    }
+  };
+
   const togglePlay = async () => {
     if (!audioRef.current || !isLoaded) {
       console.log('⚠️ Cannot play: audio not ready');
+      toast.info('Сначала загрузите аудио файл');
+      fileInputRef.current?.click();
       return;
     }
 
@@ -112,6 +145,24 @@ export default function BackgroundMusic() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 p-4 rounded-2xl wooden-button backdrop-blur-lg shadow-2xl">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="audio/*"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
+      
+      <Button
+        onClick={() => fileInputRef.current?.click()}
+        size="sm"
+        variant="ghost"
+        className="h-10 w-10 rounded-full hover:scale-110 transition-transform"
+        title="Загрузить музыку"
+      >
+        <Icon name="Upload" className="h-5 w-5" />
+      </Button>
+      
       <Button
         onClick={togglePlay}
         size="sm"
@@ -131,12 +182,13 @@ export default function BackgroundMusic() {
           value={volume * 100}
           onChange={(e) => setVolume(Number(e.target.value) / 100)}
           className="w-full h-2 bg-primary/20 rounded-lg appearance-none cursor-pointer accent-primary"
+          disabled={!isLoaded}
         />
       </div>
       
       <div className="flex items-center gap-1 text-xs text-muted-foreground font-cormorant">
         <Icon name="Music" className="h-4 w-4" />
-        <span className="whitespace-nowrap">Звуки природы</span>
+        <span className="whitespace-nowrap">{isLoaded ? 'Музыка' : 'Загрузить'}</span>
       </div>
     </div>
   );
