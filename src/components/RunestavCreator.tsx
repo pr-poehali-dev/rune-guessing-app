@@ -1,11 +1,12 @@
-import { useState, useRef } from "react";
-import { type Rune } from "@/data/runes";
+import { useState, useRef, useMemo } from "react";
+import { type Rune, elderFuthark } from "@/data/runes";
 import { toast } from "sonner";
 import html2canvas from "html2canvas";
 import RunestavForm from "./runestav/RunestavForm";
 import RuneSelector from "./runestav/RuneSelector";
 import SavedRunestavs, { type CreatedRunestav } from "./runestav/SavedRunestavs";
 import RunestavExportCanvas from "./runestav/RunestavExportCanvas";
+import { analyzeIntention } from "@/utils/runeIntentionAnalyzer";
 
 export default function RunestavCreator() {
   const [selectedRunes, setSelectedRunes] = useState<Rune[]>([]);
@@ -18,6 +19,10 @@ export default function RunestavCreator() {
   });
   const [viewingRunestav, setViewingRunestav] = useState<CreatedRunestav | null>(null);
   const exportRef = useRef<HTMLDivElement>(null);
+
+  const intentionAnalysis = useMemo(() => {
+    return analyzeIntention(intention, elderFuthark);
+  }, [intention]);
 
   const addRune = (rune: Rune) => {
     if (selectedRunes.length >= 9) {
@@ -185,7 +190,12 @@ export default function RunestavCreator() {
           compatibility={compatibility}
         />
 
-        <RuneSelector addRune={addRune} />
+        <RuneSelector 
+          addRune={addRune}
+          recommendedRunes={intentionAnalysis.recommendedRunes}
+          neutralRunes={intentionAnalysis.neutralRunes}
+          notRecommendedRunes={intentionAnalysis.notRecommendedRunes}
+        />
       </div>
 
       <SavedRunestavs
