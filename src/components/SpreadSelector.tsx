@@ -20,15 +20,15 @@ export default function SpreadSelector({ onSelectSpread, isDrawing }: SpreadSele
             <div className="text-6xl mb-4 rune-glow group-hover:scale-110 transition-transform">
               {spread.icon}
             </div>
-            <h3 className="wooden-card-title text-2xl font-cinzel">
+            <h3 className="wooden-card-title font-cinzel text-4xl">
               {spread.name}
             </h3>
-            <p className="wooden-card-text text-sm font-cormorant leading-relaxed min-h-[3rem]">
+            <p className="wooden-card-text font-cormorant leading-relaxed min-h-[3rem] text-xl my-[5px] font-extrabold">
               {spread.description}
             </p>
             <div className="flex items-center justify-center gap-2 text-xs wooden-card-text pt-2 border-t border-amber-900/30">
               <Icon name="Sparkles" className="h-4 w-4" />
-              <span className="font-semibold">{spread.positions} {spread.positions === 1 ? 'руна' : spread.positions < 5 ? 'руны' : 'рун'}</span>
+              <span className="font-semibold text-4xl">{spread.positions} {spread.positions === 1 ? 'руна' : spread.positions < 5 ? 'руны' : 'рун'}</span>
             </div>
           </div>
         </Card>
