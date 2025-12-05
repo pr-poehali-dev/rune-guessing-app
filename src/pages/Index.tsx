@@ -260,7 +260,7 @@ export default function Index() {
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         <header className="text-center space-y-4 mb-12">
           <div className="inline-block px-8 py-4 rounded-2xl" style={{ background: 'linear-gradient(145deg, rgba(201, 169, 122, 0.4), rgba(139, 111, 71, 0.3))', backdropFilter: 'blur(12px)', border: '2px solid rgba(107, 89, 67, 0.5)' }}>
-            <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
+            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in" style={{ fontFamily: "'MedievalSharp', serif" }}>
               Рунический Оракул
             </h1>
           </div>
