@@ -5,19 +5,26 @@ import Icon from "@/components/ui/icon";
 export default function BackgroundMusic() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0.3);
+  const [isLoaded, setIsLoaded] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    const audio = new Audio("https://cdn.pixabay.com/audio/2022/03/10/audio_4f0ee99b85.mp3");
+    const audio = new Audio();
+    audio.src = "https://cdn.pixabay.com/audio/2022/03/10/audio_4f0ee99b85.mp3";
     audio.loop = true;
     audio.volume = volume;
+    audio.preload = "auto";
+    
+    audio.addEventListener('canplaythrough', () => {
+      setIsLoaded(true);
+    });
+    
+    audio.addEventListener('error', () => {
+      audio.src = "https://cdn.pixabay.com/audio/2023/03/13/audio_6d5dd3c944.mp3";
+      audio.load();
+    });
+    
     audioRef.current = audio;
-
-    const savedIsPlaying = localStorage.getItem('runesMusicPlaying');
-    if (savedIsPlaying === 'true') {
-      setIsPlaying(true);
-      audio.play().catch(err => console.log('Autoplay prevented:', err));
-    }
 
     return () => {
       audio.pause();
@@ -31,17 +38,22 @@ export default function BackgroundMusic() {
     }
   }, [volume]);
 
-  const togglePlay = () => {
-    if (!audioRef.current) return;
+  const togglePlay = async () => {
+    if (!audioRef.current || !isLoaded) return;
 
     if (isPlaying) {
       audioRef.current.pause();
       localStorage.setItem('runesMusicPlaying', 'false');
+      setIsPlaying(false);
     } else {
-      audioRef.current.play().catch(err => console.log('Play error:', err));
-      localStorage.setItem('runesMusicPlaying', 'true');
+      try {
+        await audioRef.current.play();
+        localStorage.setItem('runesMusicPlaying', 'true');
+        setIsPlaying(true);
+      } catch (err) {
+        console.log('Play prevented:', err);
+      }
     }
-    setIsPlaying(!isPlaying);
   };
 
   return (
@@ -51,6 +63,7 @@ export default function BackgroundMusic() {
         size="sm"
         variant="ghost"
         className="h-10 w-10 rounded-full hover:scale-110 transition-transform"
+        disabled={!isLoaded}
       >
         <Icon name={isPlaying ? "Pause" : "Play"} className="h-5 w-5" />
       </Button>
