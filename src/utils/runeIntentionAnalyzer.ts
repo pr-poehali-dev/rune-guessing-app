@@ -1,9 +1,10 @@
 import { type Rune } from "@/data/runes";
 
-interface IntentionAnalysis {
+export interface IntentionAnalysis {
   recommendedRunes: number[];
   neutralRunes: number[];
   notRecommendedRunes: number[];
+  runeReasons: Record<number, string>;
 }
 
 const intentionKeywords = {
@@ -51,12 +52,31 @@ const runeAffinities: Record<number, string[]> = {
   24: ["home", "family", "heritage"]
 };
 
+const categoryDescriptions: Record<string, string> = {
+  wealth: "богатство и материальное процветание",
+  love: "любовь и гармоничные отношения",
+  health: "здоровье и восстановление сил",
+  protection: "защиту и безопасность",
+  success: "успех и достижение целей",
+  wisdom: "мудрость и знания",
+  change: "трансформацию и изменения",
+  communication: "общение и понимание",
+  creativity: "творчество и вдохновение",
+  peace: "гармонию и покой",
+  strength: "силу и выносливость",
+  fertility: "плодородие и рост",
+  victory: "победу и преодоление",
+  journey: "путешествие и движение вперёд",
+  joy: "радость и счастье"
+};
+
 export function analyzeIntention(intention: string, allRunes: Rune[]): IntentionAnalysis {
   if (!intention.trim()) {
     return {
       recommendedRunes: [],
       neutralRunes: allRunes.map(r => r.id),
-      notRecommendedRunes: []
+      notRecommendedRunes: [],
+      runeReasons: {}
     };
   }
 
@@ -76,33 +96,53 @@ export function analyzeIntention(intention: string, allRunes: Rune[]): Intention
     return {
       recommendedRunes: [],
       neutralRunes: allRunes.map(r => r.id),
-      notRecommendedRunes: []
+      notRecommendedRunes: [],
+      runeReasons: {}
     };
   }
 
   const runeScores: Record<number, number> = {};
+  const runeReasons: Record<number, string> = {};
   
   allRunes.forEach(rune => {
     let score = 0;
+    const reasons: string[] = [];
     const affinities = runeAffinities[rune.id] || [];
     
     affinities.forEach(affinity => {
       if (detectedCategories.includes(affinity)) {
         score += 2;
+        const desc = categoryDescriptions[affinity];
+        if (desc) {
+          reasons.push(desc);
+        }
       }
     });
 
+    const matchedKeywords: string[] = [];
     for (const keyword of rune.keywords) {
       if (lowerIntention.includes(keyword.toLowerCase())) {
         score += 1;
+        matchedKeywords.push(keyword);
       }
+    }
+
+    if (matchedKeywords.length > 0) {
+      reasons.push(`ключевые качества: ${matchedKeywords.join(', ')}`);
     }
 
     if (rune.meaning && lowerIntention.includes(rune.meaning.toLowerCase().split(',')[0])) {
       score += 1;
+      reasons.push(`прямое значение: ${rune.meaning.split(',')[0]}`);
     }
 
     runeScores[rune.id] = score;
+    
+    if (reasons.length > 0) {
+      runeReasons[rune.id] = `Подходит для: ${reasons.slice(0, 2).join('; ')}`;
+    } else {
+      runeReasons[rune.id] = rune.meaning;
+    }
   });
 
   const maxScore = Math.max(...Object.values(runeScores));
@@ -125,6 +165,7 @@ export function analyzeIntention(intention: string, allRunes: Rune[]): Intention
   return {
     recommendedRunes: recommended,
     neutralRunes: neutral,
-    notRecommendedRunes: notRecommended
+    notRecommendedRunes: notRecommended,
+    runeReasons
   };
 }

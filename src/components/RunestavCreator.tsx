@@ -195,6 +195,7 @@ export default function RunestavCreator() {
           recommendedRunes={intentionAnalysis.recommendedRunes}
           neutralRunes={intentionAnalysis.neutralRunes}
           notRecommendedRunes={intentionAnalysis.notRecommendedRunes}
+          runeReasons={intentionAnalysis.runeReasons}
         />
       </div>
 
