@@ -259,10 +259,14 @@ export default function Index() {
       <div className="fixed inset-0 bg-gradient-to-b from-white/5 via-transparent to-green-900/10 -z-10" />
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         <header className="text-center space-y-4 mb-12">
-          <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
-            Рунический Оракул
-          </h1>
-          <p className="font-cormorant max-w-2xl mx-auto text-orange-200 text-lg font-extrabold">Прикоснись к древней мудрости Старшего Футарка. Пусть Руны откроют путь к твоей судьбе.</p>
+          <div className="inline-block px-8 py-4 rounded-2xl" style={{ background: 'linear-gradient(145deg, rgba(201, 169, 122, 0.4), rgba(139, 111, 71, 0.3))', backdropFilter: 'blur(12px)', border: '2px solid rgba(107, 89, 67, 0.5)' }}>
+            <h1 className="text-5xl md:text-6xl font-cinzel font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent animate-fade-in">
+              Рунический Оракул
+            </h1>
+          </div>
+          <div className="inline-block px-6 py-3 rounded-xl max-w-2xl mx-auto" style={{ background: 'linear-gradient(145deg, rgba(201, 169, 122, 0.4), rgba(139, 111, 71, 0.3))', backdropFilter: 'blur(12px)', border: '2px solid rgba(107, 89, 67, 0.5)' }}>
+            <p className="font-cormorant text-orange-200 text-lg font-extrabold">Прикоснись к древней мудрости Старшего Футарка. Пусть Руны откроют путь к твоей судьбе.</p>
+          </div>
         </header>
 
         <Tabs defaultValue="spreads" className="space-y-6">
