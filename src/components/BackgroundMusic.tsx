@@ -134,7 +134,7 @@ export default function BackgroundMusic() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 p-4 rounded-2xl wooden-button backdrop-blur-lg shadow-2xl">
+    <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3 p-4 wooden-button backdrop-blur-lg shadow-2xl my-[37px] mx-[34px] py-[13px] px-[67px] rounded-md">
       <input
         ref={fileInputRef}
         type="file"
