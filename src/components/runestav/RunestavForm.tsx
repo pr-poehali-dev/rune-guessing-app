@@ -39,48 +39,48 @@ export default function RunestavForm({
 }: RunestavFormProps) {
   return (
     <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
-      <h3 className="font-cinzel text-2xl font-bold mb-4 flex items-center gap-2">Создание руностава</h3>
+      <h3 className="font-cinzel text-3xl font-bold mb-6 flex items-center gap-2">Создание руностава</h3>
       
       <div className="space-y-6">
         <div>
-          <label className="block text-sm font-cinzel font-semibold mb-2">
+          <label className="block text-base font-cinzel font-semibold mb-3">
             Название рунослава
           </label>
           <Input
             value={runestavName}
             onChange={(e) => setRunestavName(e.target.value)}
             placeholder="Например: Руностав на процветание"
-            className="bg-card/50"
+            className="bg-card/50 text-base h-12"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-cinzel font-semibold mb-2">
+          <label className="block text-base font-cinzel font-semibold mb-3">
             Намерение (цель рунослава)
           </label>
           <Textarea
             value={intention}
             onChange={(e) => setIntention(e.target.value)}
             placeholder="Чётко опишите, для чего создаётся этот руностав..."
-            className="bg-card/50 min-h-[80px]"
+            className="bg-card/50 min-h-[100px] text-base leading-relaxed"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-cinzel font-semibold mb-2">
+          <label className="block text-base font-cinzel font-semibold mb-3">
             Описание (необязательно)
           </label>
           <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Дополнительные заметки о руноставе..."
-            className="bg-card/50"
+            className="bg-card/50 text-base leading-relaxed"
           />
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-2">
-            <label className="block text-sm font-cinzel font-semibold">
+          <div className="flex items-center justify-between mb-3">
+            <label className="block text-base font-cinzel font-semibold">
               Выбранные руны ({selectedRunes.length}/9)
             </label>
             {selectedRunes.length > 0 && (
@@ -96,9 +96,9 @@ export default function RunestavForm({
             )}
           </div>
 
-          <div className="mb-3 p-2 bg-muted/30 rounded-md">
-            <p className="text-xs font-cormorant text-muted-foreground flex items-center gap-1.5">
-              <Icon name="Lightbulb" className="h-3.5 w-3.5" />
+          <div className="mb-3 p-3 bg-muted/30 rounded-md">
+            <p className="text-sm font-cormorant text-muted-foreground flex items-center gap-2">
+              <Icon name="Lightbulb" className="h-4 w-4" />
               {selectedRunes.length === 0 && "Начните с выбора 3-7 рун для создания сбалансированного рунослава"}
               {selectedRunes.length === 1 && "Добавьте ещё 2-6 рун для усиления формулы"}
               {selectedRunes.length === 2 && "Добавьте ещё 1-5 рун для завершения композиции"}
@@ -109,14 +109,14 @@ export default function RunestavForm({
           </div>
           
           {selectedRunes.length === 0 ? (
-            <div className="border-2 border-dashed border-border rounded-lg p-8 text-center">
-              <Icon name="Plus" className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground font-cormorant">
+            <div className="border-2 border-dashed border-border rounded-lg p-10 text-center">
+              <Icon name="Plus" className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+              <p className="text-base text-muted-foreground font-cormorant">
                 Выберите руны из списка ниже
               </p>
             </div>
           ) : (
-            <div className="flex flex-wrap gap-3 p-4 bg-card/50 rounded-lg border border-border">
+            <div className="flex flex-wrap gap-4 p-5 bg-card/50 rounded-lg border border-border">
               {selectedRunes.map((rune, index) => (
                 <div
                   key={index}
@@ -124,7 +124,7 @@ export default function RunestavForm({
                   onClick={() => removeRune(index)}
                   title={`${rune.name} - нажмите для удаления`}
                 >
-                  <div className="text-4xl rune-glow">{rune.symbol}</div>
+                  <div className="text-5xl rune-glow">{rune.symbol}</div>
                   <div className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Icon name="X" className="h-4 w-4 text-destructive bg-card rounded-full" />
                   </div>
@@ -137,13 +137,13 @@ export default function RunestavForm({
         {compatibility && (
           <div className="space-y-3">
             {compatibility.warnings.length > 0 && (
-              <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-3">
-                <p className="font-cinzel font-semibold text-sm mb-2 flex items-center gap-2">
-                  <Icon name="AlertTriangle" className="h-4 w-4" />
+              <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
+                <p className="font-cinzel font-semibold text-base mb-3 flex items-center gap-2">
+                  <Icon name="AlertTriangle" className="h-5 w-5" />
                   Возможные конфликты
                 </p>
                 {compatibility.warnings.map((warning, i) => (
-                  <p key={i} className="text-xs font-cormorant text-muted-foreground">
+                  <p key={i} className="text-sm font-cormorant text-muted-foreground leading-relaxed">
                     • {warning}
                   </p>
                 ))}
@@ -151,13 +151,13 @@ export default function RunestavForm({
             )}
 
             {compatibility.strengths.length > 0 && (
-              <div className="bg-primary/10 border border-primary/30 rounded-lg p-3">
-                <p className="font-cinzel font-semibold text-sm mb-2 flex items-center gap-2">
-                  <Icon name="Sparkles" className="h-4 w-4" />
+              <div className="bg-primary/10 border border-primary/30 rounded-lg p-4">
+                <p className="font-cinzel font-semibold text-base mb-3 flex items-center gap-2">
+                  <Icon name="Sparkles" className="h-5 w-5" />
                   Сильные стороны формулы
                 </p>
                 {compatibility.strengths.map((strength, i) => (
-                  <p key={i} className="text-xs font-cormorant text-muted-foreground">
+                  <p key={i} className="text-sm font-cormorant text-muted-foreground leading-relaxed">
                     • {strength}
                   </p>
                 ))}
