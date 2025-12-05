@@ -300,25 +300,25 @@ export default function Index() {
         </header>
 
         <Tabs defaultValue="spreads" className="space-y-6">
-          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-5 wooden-button">
-            <TabsTrigger value="spreads" className="font-cinzel text-lg font-bold">
-              <Icon name="Sparkles" className="mr-2 h-5 w-5" />
+          <TabsList className="grid w-full max-w-4xl mx-auto grid-cols-5 wooden-button h-14">
+            <TabsTrigger value="spreads" className="font-cinzel text-xl font-bold">
+              <Icon name="Sparkles" className="mr-2 h-6 w-6" />
               Расклады
             </TabsTrigger>
-            <TabsTrigger value="library" className="font-cinzel text-lg font-bold">
-              <Icon name="BookOpen" className="mr-2 h-5 w-5" />
+            <TabsTrigger value="library" className="font-cinzel text-xl font-bold">
+              <Icon name="BookOpen" className="mr-2 h-6 w-6" />
               Библиотека
             </TabsTrigger>
-            <TabsTrigger value="talismans" className="font-cinzel text-lg font-bold">
-              <Icon name="Sparkles" className="mr-2 h-5 w-5" />
+            <TabsTrigger value="talismans" className="font-cinzel text-xl font-bold">
+              <Icon name="Sparkles" className="mr-2 h-6 w-6" />
               Талисманы
             </TabsTrigger>
-            <TabsTrigger value="creator" className="font-cinzel text-lg font-bold">
-              <Icon name="Wand2" className="mr-2 h-5 w-5" />
+            <TabsTrigger value="creator" className="font-cinzel text-xl font-bold">
+              <Icon name="Wand2" className="mr-2 h-6 w-6" />
               Руноставы
             </TabsTrigger>
-            <TabsTrigger value="history" className="font-cinzel text-lg font-bold">
-              <Icon name="History" className="mr-2 h-5 w-5" />
+            <TabsTrigger value="history" className="font-cinzel text-xl font-bold">
+              <Icon name="History" className="mr-2 h-6 w-6" />
               История
             </TabsTrigger>
           </TabsList>
