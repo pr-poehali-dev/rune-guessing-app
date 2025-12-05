@@ -75,7 +75,44 @@ export default function RuneResult({
         </div>
       </Card>
 
+      {interpretation && (
+        <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
+          <h3 className="font-cinzel text-2xl font-bold mb-4 text-primary">
+            🔮 Общая интерпретация расклада
+          </h3>
+          <ScrollArea className="h-[400px] pr-4">
+            <div className="prose prose-invert max-w-none font-cormorant">
+              {interpretation.split('\n').map((line, i) => {
+                if (line.startsWith('## ')) {
+                  return (
+                    <h2 key={i} className="font-cinzel text-3xl mb-4 text-primary">
+                      {line.replace('## ', '')}
+                    </h2>
+                  );
+                } else if (line.startsWith('### ')) {
+                  return (
+                    <h3 key={i} className="font-cinzel text-xl mt-6 mb-3">
+                      {line.replace('### ', '')}
+                    </h3>
+                  );
+                } else if (line.trim()) {
+                  return (
+                    <p key={i} className="mb-3 text-base leading-relaxed">
+                      {line}
+                    </p>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          </ScrollArea>
+        </Card>
+      )}
+
       <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
+        <h3 className="font-cinzel text-2xl font-bold mb-4 text-primary">
+          📖 Подробное объяснение рун
+        </h3>
         <ScrollArea className="h-[600px] pr-4">
           <div className="space-y-8 font-cormorant">
             {drawnRunes.map((rune, index) => (
@@ -156,40 +193,6 @@ export default function RuneResult({
           </div>
         </ScrollArea>
       </Card>
-
-      {interpretation && (
-        <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
-          <h3 className="font-cinzel text-2xl font-bold mb-4 text-primary">
-            🔮 Общая интерпретация расклада
-          </h3>
-          <ScrollArea className="h-[400px] pr-4">
-            <div className="prose prose-invert max-w-none font-cormorant">
-              {interpretation.split('\n').map((line, i) => {
-                if (line.startsWith('## ')) {
-                  return (
-                    <h2 key={i} className="font-cinzel text-3xl mb-4 text-primary">
-                      {line.replace('## ', '')}
-                    </h2>
-                  );
-                } else if (line.startsWith('### ')) {
-                  return (
-                    <h3 key={i} className="font-cinzel text-xl mt-6 mb-3">
-                      {line.replace('### ', '')}
-                    </h3>
-                  );
-                } else if (line.trim()) {
-                  return (
-                    <p key={i} className="mb-3 text-base leading-relaxed">
-                      {line}
-                    </p>
-                  );
-                }
-                return null;
-              })}
-            </div>
-          </ScrollArea>
-        </Card>
-      )}
 
       <div className="flex justify-center gap-4">
         <Button
