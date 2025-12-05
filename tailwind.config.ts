@@ -74,7 +74,8 @@ export default {
 			},
 			fontFamily: {
 				'cinzel': ['Cinzel', 'serif'],
-				'cormorant': ['Cormorant', 'serif']
+				'cormorant': ['Cormorant', 'serif'],
+				'runic': ['Runic', 'serif']
 			},
 			keyframes: {
 				'accordion-down': {

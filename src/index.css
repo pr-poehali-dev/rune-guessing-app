@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant:wght@300;400;600&family=Piazzolla:wght@400;600;700;900&display=swap");
 
+@font-face {
+  font-family: "Runic";
+  src: url("https://drive.usercontent.google.com/uc?id=1uhqLtPapgFZl7t6XidXOoiRuT2ZwzVuA&export=download")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
