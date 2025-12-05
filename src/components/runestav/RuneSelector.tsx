@@ -44,27 +44,24 @@ export default function RuneSelector({
     <TooltipProvider delayDuration={300}>
       <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="font-cinzel text-2xl font-bold flex items-center gap-2">
-            <Icon name="Grid3x3" className="h-6 w-6" />
-            Elder Futhark
-          </h3>
+          <h3 className="font-cinzel text-2xl font-bold flex items-center gap-2">СТАРШИЙ ФУТАРК</h3>
           {hasAnalysis && (
             <div className="flex gap-2 text-xs">
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 rounded-full bg-primary/30 border-2 border-primary"></div>
-                <span className="text-muted-foreground">Подходит</span>
+                <span className="text-muted-foreground text-2xl">Подходит</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 rounded-full bg-muted/30"></div>
-                <span className="text-muted-foreground">Не подходит</span>
+                <span className="text-muted-foreground text-2xl">Не подходит</span>
               </div>
             </div>
           )}
         </div>
 
         {hasAnalysis && (
-          <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
-            <p className="text-xs font-cormorant text-muted-foreground flex items-center gap-2">
+          <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg py-2.5">
+            <p className="font-cormorant text-muted-foreground flex items-center gap-2 text-xl text-center">
               <Icon name="Info" className="h-4 w-4 text-primary" />
               Подходящие руны отображаются в начале списка. Рекомендуется использовать 3-7 рун в руноставе.
             </p>
