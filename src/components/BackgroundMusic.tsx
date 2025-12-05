@@ -11,11 +11,10 @@ export default function BackgroundMusic() {
 
   useEffect(() => {
     const audio = new Audio();
-    audio.src = "https://archive.org/download/relaxingsounds/Falls%206%205h%20Gentle%20River%2CStream%20w%20Deep%20Forest%20Ambience-Canada.ogg";
+    audio.src = "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Simon_Bowman/Interfere/Simon_Bowman_-_01_-_Interlude_1.mp3";
     audio.loop = true;
     audio.volume = volume;
     audio.preload = "auto";
-    audio.crossOrigin = "anonymous";
     
     console.log('🎵 Audio element created, loading...');
     
@@ -26,12 +25,8 @@ export default function BackgroundMusic() {
     
     audio.addEventListener('error', (e) => {
       console.log('❌ Audio load error:', e);
-      audio.src = "https://ia801305.us.archive.org/35/items/relaxingsounds/Rainforest%205h%20Bubbling%20River%20Falls%28gentle%29%2CBirds%2CInsects%2CAnimals-Daytime%2CSouth%20America.ogg";
+      audio.src = "https://www.bensound.com/bensound-music/bensound-slowmotion.mp3";
       audio.load();
-    });
-    
-    audio.addEventListener('loadstart', () => {
-      console.log('⏳ Audio loading started');
     });
     
     audioRef.current = audio;
