@@ -32,15 +32,15 @@ export default function SavedRunestavs({
   return (
     <div className="space-y-6">
       <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
-        <h3 className="font-cinzel text-2xl font-bold mb-4 flex items-center gap-2">
-          <Icon name="BookMarked" className="h-6 w-6" />
+        <h3 className="font-cinzel text-3xl font-bold mb-4 flex items-center gap-2">
+          <Icon name="BookMarked" className="h-7 w-7" />
           Мои руноставы
         </h3>
 
         {savedRunestavs.length === 0 ? (
           <div className="text-center py-8">
             <Icon name="BookOpen" className="h-12 w-12 mx-auto mb-3 text-muted-foreground" />
-            <p className="text-sm text-muted-foreground font-cormorant">
+            <p className="text-base text-muted-foreground font-cormorant">
               Здесь появятся ваши сохранённые руноставы
             </p>
           </div>
@@ -50,11 +50,11 @@ export default function SavedRunestavs({
               {savedRunestavs.map((runestav) => (
                 <div
                   key={runestav.id}
-                  className="bg-card/50 rounded-lg p-4 border border-border hover:border-primary/50 transition-colors cursor-pointer"
+                  className="bg-card/50 rounded-lg p-5 border border-border hover:border-primary/50 transition-colors cursor-pointer"
                   onClick={() => setViewingRunestav(runestav)}
                 >
                   <div className="flex items-start justify-between mb-2">
-                    <h4 className="font-cinzel font-semibold text-sm pr-2">
+                    <h4 className="font-cinzel font-semibold text-base pr-2">
                       {runestav.name}
                     </h4>
                     <button
@@ -69,12 +69,12 @@ export default function SavedRunestavs({
                   </div>
                   <div className="flex gap-1 mb-2">
                     {runestav.runes.map((rune, i) => (
-                      <span key={i} className="text-2xl rune-glow">
+                      <span key={i} className="text-3xl rune-glow">
                         {rune.symbol}
                       </span>
                     ))}
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-sm text-muted-foreground">
                     {runestav.date}
                   </p>
                 </div>
@@ -87,7 +87,7 @@ export default function SavedRunestavs({
       {viewingRunestav && (
         <Card className="p-6 bg-card/80 backdrop-blur border-primary/30 mt-6">
           <div className="flex items-start justify-between mb-4">
-            <h3 className="font-cinzel text-xl font-bold">
+            <h3 className="font-cinzel text-2xl font-bold">
               {viewingRunestav.name}
             </h3>
             <button
@@ -102,8 +102,8 @@ export default function SavedRunestavs({
             <div className="flex flex-wrap justify-center gap-3 py-4">
               {viewingRunestav.runes.map((rune, i) => (
                 <div key={i} className="text-center">
-                  <div className="text-5xl rune-glow">{rune.symbol}</div>
-                  <p className="text-xs text-muted-foreground mt-1">{rune.name}</p>
+                  <div className="text-6xl rune-glow">{rune.symbol}</div>
+                  <p className="text-sm text-muted-foreground mt-1">{rune.name}</p>
                 </div>
               ))}
             </div>
@@ -111,28 +111,28 @@ export default function SavedRunestavs({
             <Separator />
 
             <div>
-              <h4 className="font-cinzel font-semibold text-sm mb-2 flex items-center gap-2">
-                <Icon name="Target" className="h-4 w-4" />
+              <h4 className="font-cinzel font-semibold text-base mb-2 flex items-center gap-2">
+                <Icon name="Target" className="h-5 w-5" />
                 Намерение
               </h4>
-              <p className="text-sm font-cormorant leading-relaxed">
+              <p className="text-base font-cormorant leading-relaxed">
                 {viewingRunestav.intention}
               </p>
             </div>
 
             {viewingRunestav.description && (
               <div>
-                <h4 className="font-cinzel font-semibold text-sm mb-2 flex items-center gap-2">
-                  <Icon name="FileText" className="h-4 w-4" />
+                <h4 className="font-cinzel font-semibold text-base mb-2 flex items-center gap-2">
+                  <Icon name="FileText" className="h-5 w-5" />
                   Описание
                 </h4>
-                <p className="text-sm font-cormorant leading-relaxed">
+                <p className="text-base font-cormorant leading-relaxed">
                   {viewingRunestav.description}
                 </p>
               </div>
             )}
 
-            <div className="text-xs text-muted-foreground">
+            <div className="text-sm text-muted-foreground">
               Создан: {viewingRunestav.date}
             </div>
 
@@ -142,7 +142,7 @@ export default function SavedRunestavs({
                 variant="outline"
                 className="flex-1 wooden-button font-cinzel"
               >
-                <Icon name="Download" className="h-4 w-4 mr-2" />
+                <Icon name="Download" className="h-5 w-5 mr-2" />
                 Экспортировать как изображение
               </Button>
             </div>
