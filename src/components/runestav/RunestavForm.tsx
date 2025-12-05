@@ -39,10 +39,7 @@ export default function RunestavForm({
 }: RunestavFormProps) {
   return (
     <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
-      <h3 className="font-cinzel text-2xl font-bold mb-4 flex items-center gap-2">
-        <Icon name="Wand2" className="h-6 w-6" />
-        Создание рунослава
-      </h3>
+      <h3 className="font-cinzel text-2xl font-bold mb-4 flex items-center gap-2">Создание руностава</h3>
       
       <div className="space-y-6">
         <div>
