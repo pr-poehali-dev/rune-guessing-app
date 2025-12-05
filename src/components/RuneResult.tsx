@@ -43,6 +43,9 @@ export default function RuneResult({
   };
 
   const bgImage = getBackgroundImage(selectedSpread.id);
+  
+  console.log('Selected spread ID:', selectedSpread.id);
+  console.log('Background image URL:', bgImage);
 
   return (
     <>
@@ -96,19 +99,17 @@ export default function RuneResult({
       </Card>
 
       {interpretation && (
-        <Card className="p-8 border-primary/30 relative overflow-hidden" style={{
-          backgroundColor: 'rgba(var(--card) / 0.8)',
-          backdropFilter: 'blur(12px)'
-        }}>
+        <Card className="p-8 bg-card/80 backdrop-blur border-primary/30 relative overflow-hidden">
           {bgImage && (
             <div 
-              className="absolute inset-0 pointer-events-none z-0"
+              className="absolute inset-0 pointer-events-none"
               style={{
                 backgroundImage: `url(${bgImage})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
-                opacity: 0.15
+                opacity: 0.3,
+                zIndex: 0
               }}
             />
           )}
@@ -146,19 +147,17 @@ export default function RuneResult({
         </Card>
       )}
 
-      <Card className="p-8 border-primary/30 relative overflow-hidden" style={{
-        backgroundColor: 'rgba(var(--card) / 0.8)',
-        backdropFilter: 'blur(12px)'
-      }}>
+      <Card className="p-8 bg-card/80 backdrop-blur border-primary/30 relative overflow-hidden">
         {bgImage && (
           <div 
-            className="absolute inset-0 pointer-events-none z-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
               backgroundImage: `url(${bgImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.15
+              opacity: 0.3,
+              zIndex: 0
             }}
           />
         )}
