@@ -114,124 +114,114 @@ export default function Index() {
     return translations[element.toLowerCase()] || element;
   };
 
+  const getRuneText = (drawnRune: DrawnRune): string => {
+    const runeData = elderFuthark.find(r => r.id === drawnRune.id)!;
+    return drawnRune.reversed ? runeData.reversed : runeData.upright;
+  };
+
   const generateInterpretation = (runes: DrawnRune[], spread: RuneSpread) => {
     let text = '';
     
     if (spread.id === "one-rune") {
       const rune = runes[0];
+      const runeData = elderFuthark.find(r => r.id === rune.id)!;
       const position = spread.positionMeanings[0];
       text += `${position} представлена руной ${rune.name} ${rune.symbol}. `;
       text += rune.reversed 
-        ? `В перевёрнутом положении ${rune.name} говорит: ${rune.reversed} `
-        : `В прямом положении ${rune.name} объясняет: ${rune.upright} `;
-      text += `\n\nЭта руна отвечает на ваш вопрос через энергию элемента "${translateElement(rune.element)}". `;
+        ? `В перевёрнутом положении ${rune.name} говорит: ${runeData.reversed} `
+        : `В прямом положении ${rune.name} объясняет: ${runeData.upright} `;
+      text += `\n\nЭта руна отвечает на ваш вопрос через энергию элемента "${translateElement(runeData.element)}". `;
       text += rune.reversed 
         ? `Перевёрнутое положение указывает на блокировку энергии и необходимость внутренней работы. Руны советуют: остановитесь, присмотритесь к ситуации с разных сторон. Ваш урок — принять теневые аспекты и трансформировать их.`
         : `Прямое положение говорит о свободном течении энергии. Вы находитесь в гармонии с потоком жизни. Руны одобряют ваши действия и призывают двигаться вперёд с уверенностью.`;
     } else if (spread.id === "three-norns") {
+      const rune0 = elderFuthark.find(r => r.id === runes[0].id)!;
+      const rune1 = elderFuthark.find(r => r.id === runes[1].id)!;
+      const rune2 = elderFuthark.find(r => r.id === runes[2].id)!;
+      
       text += `${spread.positionMeanings[0]} представлено руной ${runes[0].name} ${runes[0].symbol}. `;
       text += runes[0].reversed 
-        ? `В перевёрнутом положении это говорит о том, что ${runes[0].reversed} `
-        : `Это означает, что ${runes[0].upright} `;
+        ? `В перевёрнутом положении это говорит о том, что ${rune0.reversed} `
+        : `Это означает, что ${rune0.upright} `;
       
       text += `\n\n${spread.positionMeanings[1]} показывает руна ${runes[1].name} ${runes[1].symbol}. `;
       text += runes[1].reversed 
-        ? `${runes[1].reversed} Перевёрнутое положение предупреждает: сейчас время не для действия, а для размышления. `
-        : `${runes[1].upright} Энергия течёт свободно, действуйте смело. `;
+        ? `${rune1.reversed} Перевёрнутое положение предупреждает: сейчас время не для действия, а для размышления. `
+        : `${rune1.upright} Энергия течёт свободно, действуйте смело. `;
       
       text += `\n\n${spread.positionMeanings[2]} раскрывает руна ${runes[2].name} ${runes[2].symbol}. `;
       text += runes[2].reversed 
-        ? `${runes[2].reversed} Если вы продолжите текущий путь, встретите препятствия. Измените подход.`
-        : `${runes[2].upright} Доверьтесь процессу.`;
+        ? `${rune2.reversed} Если вы продолжите текущий путь, встретите препятствия. Измените подход.`
+        : `${rune2.upright} Доверьтесь процессу.`;
       
       text += `\n\nТри норны — Урд, Верданди и Скульд — ткут нить вашей судьбы, соединяя прошлое, настоящее и будущее в единый узор судьбы.`;    
     } else if (spread.id === "runic-cross") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} представлена руной ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nРунический крест открывает пять измерений вашей ситуации, показывая суть вопроса, препятствия на пути, источники помощи, возможный результат и глубинные причины происходящего.`;
     } else if (spread.id === "five-runes") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} показывает руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nПятирунный расклад раскрывает динамику вашей проблемы, показывая центр вопроса, влияния прошлого, возможности будущего, совет рун и потенциальный результат.`;
     } else if (spread.id === "seven-runes") {
       for (let i = 0; i < 7; i++) {
         text += `${spread.positionMeanings[i]} открывает руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 6 ? `\n\n` : '';
       }
       text += `\n\nСемь рун открывают кармический узел вашей судьбы — уроки, которые вы пришли изучить в этой жизни. Прошлое, настоящее и будущее формируют ось времени, а ваша роль, внешние силы, скрытые факторы и итоговый урок показывают полную картину вашего духовного пути.`;
     } else if (spread.id === "nine-worlds") {
       for (let i = 0; i < 9; i++) {
         text += `${spread.positionMeanings[i]} представляет руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 8 ? `\n\n` : '';
       }
       text += `\n\nДевять миров Иггдрасиля открываются перед вами в этом шаманском раскладе. Каждый мир представляет свой аспект вашей ситуации: от высших целей и ресурсов до страхов и тайных знаний, завершаясь окончательной трансформацией.`;
     } else if (spread.id === "love-relations") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} показывает руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nРасклад на любовь и отношения открывает динамику вашей связи, показывая ваше состояние, энергию партнёра, характер связи, препятствия и перспективы развития отношений.`;
     } else if (spread.id === "career-calling") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} открывает руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nРасклад на карьеру показывает ваш профессиональный путь: текущую позицию, препятствия, новые возможности, совет рун и перспективы развития в профессиональной сфере.`;
     } else if (spread.id === "shamanic-throw") {
       for (let i = 0; i < 3; i++) {
         text += `${spread.positionMeanings[i]} представляет руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 2 ? `\n\n` : '';
       }
       text += `\n\nШаманский бросок — древнейший способ общения с духами рун. Эти три руны работают вместе, создавая целостную картину вашего состояния: тело раскрывает материальные обстоятельства, душа — эмоциональное состояние, а дух — высший духовный смысл.`;
     } else if (spread.id === "thors-hammer") {
       for (let i = 0; i < 5; i++) {
         text += `${spread.positionMeanings[i]} представляет руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 4 ? `\n\n` : '';
       }
       text += `\n\nМолот Тора — мощный защитный расклад для преодоления препятствий. Он показывает вашу внутреннюю силу (рукоять), что ослабляет вас (левая сторона), что усиливает (правая сторона), решающее действие (головка молота) и итоговый результат.`;
     } else if (spread.id === "celtic-cross") {
       for (let i = 0; i < 10; i++) {
         text += `${spread.positionMeanings[i]} представлена руной ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 9 ? `\n\n` : '';
       }
       text += `\n\nКельтский крест — самый глубокий и детальный расклад, раскрывающий все аспекты ситуации: суть вопроса, влияния, основу, прошлое, возможное будущее, вашу позицию, внешние факторы, надежды, страхи и итоговый результат.`;
     } else if (spread.id === "personal-growth") {
       for (let i = 0; i < 6; i++) {
         text += `${spread.positionMeanings[i]} открывает руна ${runes[i].name} ${runes[i].symbol}. `;
-        text += runes[i].reversed 
-          ? `${runes[i].reversed}` 
-          : `${runes[i].upright}`;
+        text += getRuneText(runes[i]);
         text += i < 5 ? `\n\n` : '';
       }
       text += `\n\nРасклад личностного роста ведет вас к целостности и самопознанию. Он показывает ваше текущее состояние, теневые аспекты, которые нужно принять, светлые качества для развития, урок момента, инструменты для роста и ваш полный потенциал.`;
