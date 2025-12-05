@@ -28,6 +28,18 @@ export default function RuneSelector({
 
   const hasAnalysis = recommendedRunes.length > 0 || notRecommendedRunes.length > 0;
 
+  const sortedRunes = [...elderFuthark].sort((a, b) => {
+    const statusA = getRuneStatus(a.id);
+    const statusB = getRuneStatus(b.id);
+    
+    if (statusA === "recommended" && statusB !== "recommended") return -1;
+    if (statusB === "recommended" && statusA !== "recommended") return 1;
+    if (statusA === "not-recommended" && statusB !== "not-recommended") return 1;
+    if (statusB === "not-recommended" && statusA !== "not-recommended") return -1;
+    
+    return 0;
+  });
+
   return (
     <TooltipProvider delayDuration={300}>
       <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
@@ -49,10 +61,19 @@ export default function RuneSelector({
             </div>
           )}
         </div>
+
+        {hasAnalysis && (
+          <div className="mb-4 p-3 bg-primary/5 border border-primary/20 rounded-lg">
+            <p className="text-xs font-cormorant text-muted-foreground flex items-center gap-2">
+              <Icon name="Info" className="h-4 w-4 text-primary" />
+              Подходящие руны отображаются в начале списка. Рекомендуется использовать 3-7 рун в руноставе.
+            </p>
+          </div>
+        )}
         
         <ScrollArea className="h-[600px] pr-4">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-            {elderFuthark.map((rune) => {
+            {sortedRunes.map((rune) => {
               const status = getRuneStatus(rune.id);
               const isRecommended = status === "recommended";
               const isNotRecommended = status === "not-recommended";

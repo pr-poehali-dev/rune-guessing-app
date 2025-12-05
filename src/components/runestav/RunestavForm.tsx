@@ -79,7 +79,7 @@ export default function RunestavForm({
         </div>
 
         <div>
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <label className="block text-sm font-cinzel font-semibold">
               Выбранные руны ({selectedRunes.length}/9)
             </label>
@@ -94,6 +94,18 @@ export default function RunestavForm({
                 Очистить
               </Button>
             )}
+          </div>
+
+          <div className="mb-3 p-2 bg-muted/30 rounded-md">
+            <p className="text-xs font-cormorant text-muted-foreground flex items-center gap-1.5">
+              <Icon name="Lightbulb" className="h-3.5 w-3.5" />
+              {selectedRunes.length === 0 && "Начните с выбора 3-7 рун для создания сбалансированного рунослава"}
+              {selectedRunes.length === 1 && "Добавьте ещё 2-6 рун для усиления формулы"}
+              {selectedRunes.length === 2 && "Добавьте ещё 1-5 рун для завершения композиции"}
+              {selectedRunes.length >= 3 && selectedRunes.length <= 7 && "Оптимальное количество рун для мощного рунослава"}
+              {selectedRunes.length === 8 && "Ещё одна руна — и формула достигнет максимума"}
+              {selectedRunes.length === 9 && "Максимальное количество рун достигнуто"}
+            </p>
           </div>
           
           {selectedRunes.length === 0 ? (
