@@ -352,7 +352,7 @@ export default function Index() {
   const handleManualComplete = (spread: RuneSpread, runes: DrawnRune[]) => {
     setSelectedSpread(spread);
     setDrawnRunes(runes);
-    generateInterpretation(spread, runes);
+    generateInterpretation(runes, spread);
     setIsManualMode(false);
   };
 
