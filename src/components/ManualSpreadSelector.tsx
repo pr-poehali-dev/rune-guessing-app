@@ -169,6 +169,29 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
         </div>
 
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-[500px] overflow-y-auto pr-2">
+          <div className="flex flex-col gap-1">
+            <button
+              onClick={() => handleRuneSelect({
+                name: "Один",
+                symbol: "?",
+                upright: "Пустая руна символизирует судьбу, которая ещё не написана. Это пространство бесконечных возможностей.",
+                reversed: "Пустая руна не имеет перевёрнутого значения - тайна остаётся тайной.",
+                element: "mystery",
+                keywords: ["судьба", "неизвестность", "тайна", "карма", "божественное"]
+              } as Rune, false)}
+              className="group p-3 rounded-lg bg-purple-950/80 hover:bg-purple-900/80 border-2 border-purple-600/70 hover:border-purple-500 transition-all hover:scale-110"
+              title="Руна Одина (пустая руна)"
+            >
+              <div className="text-4xl text-center text-purple-200">∅</div>
+              <div className="text-xs text-purple-300 text-center mt-1 font-cormorant font-bold">
+                Один
+              </div>
+            </button>
+            <div className="p-1 rounded bg-gray-800/40 border border-gray-700/50">
+              <div className="h-3 w-3 mx-auto text-gray-600 text-xs text-center">—</div>
+            </div>
+          </div>
+          
           {elderFuthark.map((rune) => (
             <div key={rune.name} className="flex flex-col gap-1">
               <button
