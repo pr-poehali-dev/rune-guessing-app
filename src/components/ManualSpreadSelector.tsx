@@ -84,35 +84,35 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
 
   if (!selectedSpread) {
     return (
-      <div className="space-y-6">
-        <div className="text-center space-y-2">
-          <h2 className="text-3xl font-cinzel font-bold text-amber-100">
+      <div className="space-y-8">
+        <div className="text-center space-y-3">
+          <h2 className="text-4xl md:text-5xl font-cinzel font-bold text-amber-100">
             Выберите вид расклада
           </h2>
-          <p className="text-amber-200/80 font-cormorant text-lg">
+          <p className="text-amber-200/80 font-cormorant text-xl md:text-2xl">
             Самостоятельно подберите руны для гадания
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {manualSpreads.map((spread) => (
             <button
               key={spread.id}
               onClick={() => handleSpreadSelect(spread)}
-              className="group p-6 rounded-xl wooden-button text-left transition-all hover:scale-105"
+              className="group p-8 rounded-xl wooden-button text-left transition-all hover:scale-105"
             >
-              <div className="flex items-start gap-3 mb-3">
-                <Icon name="Hand" className="h-6 w-6 text-amber-400 flex-shrink-0 mt-1" />
+              <div className="flex items-start gap-4 mb-4">
+                <Icon name="Hand" className="h-8 w-8 text-amber-400 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-cinzel font-bold text-xl text-amber-100 mb-1">
+                  <h3 className="font-cinzel font-bold text-2xl text-amber-100 mb-2">
                     {spread.name}
                   </h3>
-                  <p className="text-amber-200/70 text-sm font-cormorant">
+                  <p className="text-amber-200/70 text-base font-cormorant leading-relaxed">
                     {spread.description}
                   </p>
                 </div>
               </div>
-              <div className="text-amber-300/60 text-sm font-cormorant">
+              <div className="text-amber-300/60 text-base font-cormorant">
                 Позиций: {spread.positions}
               </div>
             </button>
@@ -134,10 +134,10 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
           Назад
         </Button>
         <div className="text-center">
-          <h3 className="text-2xl font-cinzel font-bold text-amber-100">
+          <h3 className="text-3xl font-cinzel font-bold text-amber-100">
             {selectedSpread.name}
           </h3>
-          <p className="text-amber-200/70 font-cormorant">
+          <p className="text-amber-200/70 font-cormorant text-lg mt-2">
             Позиция {currentPosition + 1} из {selectedSpread.positions}: {selectedSpread.positionMeanings[currentPosition]}
           </p>
         </div>
@@ -159,11 +159,11 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
           ))}
         </div>
 
-        <div className="text-center mb-4">
-          <h4 className="text-xl font-cinzel text-amber-100 mb-2">
+        <div className="text-center mb-6">
+          <h4 className="text-2xl font-cinzel text-amber-100 mb-3">
             Выберите руну для позиции: {selectedSpread.positionMeanings[currentPosition]}
           </h4>
-          <p className="text-amber-200/70 font-cormorant text-sm">
+          <p className="text-amber-200/70 font-cormorant text-base">
             Нажмите на руну чтобы выбрать её в прямом положении, или на стрелку для перевёрнутой руны
           </p>
         </div>

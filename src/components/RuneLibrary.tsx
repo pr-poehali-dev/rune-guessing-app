@@ -27,9 +27,13 @@ export default function RuneLibrary({ selectedRune, onSelectRune }: RuneLibraryP
                     selectedRune?.name === rune.name 
                       ? "bg-primary/20 ring-2 ring-primary" 
                       : "hover:bg-card"
+                  } ${
+                    rune.name === "Вирд" 
+                      ? "bg-purple-950/30 border border-purple-600/30" 
+                      : ""
                   }`}
                 >
-                  {rune.symbol}
+                  {rune.name === "Вирд" ? <span className="text-purple-200">∅</span> : rune.symbol}
                 </button>
               ))}
             </div>
@@ -41,8 +45,10 @@ export default function RuneLibrary({ selectedRune, onSelectRune }: RuneLibraryP
         {selectedRune ? (
           <Card className="p-8 bg-card/80 backdrop-blur border-primary/30">
             <div className="text-center mb-6">
-              <div className="text-8xl font-bold mb-4 rune-glow inline-block">
-                {selectedRune.symbol}
+              <div className={`text-8xl font-bold mb-4 rune-glow inline-block ${
+                selectedRune.name === "Вирд" ? "text-purple-200" : ""
+              }`}>
+                {selectedRune.name === "Вирд" ? "∅" : selectedRune.symbol}
               </div>
               <h2 className="font-cinzel text-3xl font-bold mb-2">
                 {selectedRune.name}
