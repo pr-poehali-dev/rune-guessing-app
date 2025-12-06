@@ -204,13 +204,19 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
                   {rune.name}
                 </div>
               </button>
-              <button
-                onClick={() => handleRuneSelect(rune, true)}
-                className="p-1 rounded bg-red-950/40 hover:bg-red-900/60 border border-red-800/50 hover:border-red-600 transition-all"
-                title={`${rune.name} (перевёрнутая)`}
-              >
-                <Icon name="ArrowDown" className="h-3 w-3 text-red-400 mx-auto" />
-              </button>
+              {rune.canBeReversed !== false ? (
+                <button
+                  onClick={() => handleRuneSelect(rune, true)}
+                  className="p-1 rounded bg-red-950/40 hover:bg-red-900/60 border border-red-800/50 hover:border-red-600 transition-all"
+                  title={`${rune.name} (перевёрнутая)`}
+                >
+                  <Icon name="ArrowDown" className="h-3 w-3 text-red-400 mx-auto" />
+                </button>
+              ) : (
+                <div className="p-1 rounded bg-gray-800/40 border border-gray-700/50">
+                  <div className="h-3 w-3 mx-auto text-gray-600 text-xs text-center">—</div>
+                </div>
+              )}
             </div>
           ))}
         </div>
