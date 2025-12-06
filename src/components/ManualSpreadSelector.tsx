@@ -169,7 +169,7 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
         </div>
 
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-[500px] overflow-y-auto pr-2">
-          {elderFuthark.map((rune) => {
+          {elderFuthark.filter(rune => rune.name !== "Вирд").map((rune) => {
             const isAlreadySelected = selectedRunes.some(r => r.name === rune.name);
             return (
               <div key={rune.name} className="flex flex-col gap-1">
