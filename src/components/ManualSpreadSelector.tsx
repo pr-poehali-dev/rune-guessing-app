@@ -169,55 +169,80 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
         </div>
 
         <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2 max-h-[500px] overflow-y-auto pr-2">
-          {elderFuthark.map((rune) => (
-            <div key={rune.name} className="flex flex-col gap-1">
-              <button
-                onClick={() => handleRuneSelect(rune, false)}
-                className="group p-3 rounded-lg bg-amber-950/60 hover:bg-amber-900/60 border border-amber-800/50 hover:border-amber-600 transition-all hover:scale-110"
-                title={`${rune.name} (прямая)`}
-              >
-                <div className="text-4xl text-center">{rune.symbol}</div>
-                <div className="text-xs text-amber-300/70 text-center mt-1 font-cormorant">
-                  {rune.name}
-                </div>
-              </button>
-              {rune.canBeReversed !== false ? (
+          {elderFuthark.map((rune) => {
+            const isAlreadySelected = selectedRunes.some(r => r.name === rune.name);
+            return (
+              <div key={rune.name} className="flex flex-col gap-1">
                 <button
-                  onClick={() => handleRuneSelect(rune, true)}
-                  className="p-1 rounded bg-red-950/40 hover:bg-red-900/60 border border-red-800/50 hover:border-red-600 transition-all"
-                  title={`${rune.name} (перевёрнутая)`}
+                  onClick={() => handleRuneSelect(rune, false)}
+                  disabled={isAlreadySelected}
+                  className={`group p-3 rounded-lg border transition-all ${
+                    isAlreadySelected 
+                      ? "bg-gray-900/50 border-gray-700/30 opacity-40 cursor-not-allowed" 
+                      : "bg-amber-950/60 hover:bg-amber-900/60 border-amber-800/50 hover:border-amber-600 hover:scale-110"
+                  }`}
+                  title={isAlreadySelected ? `${rune.name} (уже выбрана)` : `${rune.name} (прямая)`}
                 >
-                  <Icon name="ArrowDown" className="h-3 w-3 text-red-400 mx-auto" />
+                  <div className="text-4xl text-center">{rune.symbol}</div>
+                  <div className="text-xs text-amber-300/70 text-center mt-1 font-cormorant">
+                    {rune.name}
+                  </div>
                 </button>
-              ) : (
-                <div className="p-1 rounded bg-gray-800/40 border border-gray-700/50">
-                  <div className="h-3 w-3 mx-auto text-gray-600 text-xs text-center">—</div>
-                </div>
-              )}
-            </div>
-          ))}
+                {rune.canBeReversed !== false ? (
+                  <button
+                    onClick={() => handleRuneSelect(rune, true)}
+                    disabled={isAlreadySelected}
+                    className={`p-1 rounded border transition-all ${
+                      isAlreadySelected
+                        ? "bg-gray-900/50 border-gray-700/30 opacity-40 cursor-not-allowed"
+                        : "bg-red-950/40 hover:bg-red-900/60 border-red-800/50 hover:border-red-600"
+                    }`}
+                    title={isAlreadySelected ? `${rune.name} (уже выбрана)` : `${rune.name} (перевёрнутая)`}
+                  >
+                    <Icon name="ArrowDown" className="h-3 w-3 text-red-400 mx-auto" />
+                  </button>
+                ) : (
+                  <div className="p-1 rounded bg-gray-800/40 border border-gray-700/50">
+                    <div className="h-3 w-3 mx-auto text-gray-600 text-xs text-center">—</div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
           
           <div className="flex flex-col gap-1">
-            <button
-              onClick={() => handleRuneSelect({
-                name: "Вирд",
-                symbol: " ",
-                upright: "Пустая руна символизирует судьбу, которая ещё не написана. Это пространство бесконечных возможностей.",
-                reversed: "Пустая руна не имеет перевёрнутого значения - тайна остаётся тайной.",
-                element: "mystery",
-                keywords: ["судьба", "неизвестность", "тайна", "карма", "божественное"]
-              } as Rune, false)}
-              className="group p-3 rounded-lg bg-purple-950/80 hover:bg-purple-900/80 border-2 border-purple-600/70 hover:border-purple-500 transition-all hover:scale-110"
-              title="Вирд (пустая руна)"
-            >
-              <div className="text-4xl text-center text-purple-200">&nbsp;</div>
-              <div className="text-xs text-purple-300 text-center mt-1 font-cormorant font-bold">
-                Вирд
-              </div>
-            </button>
-            <div className="p-1 rounded bg-gray-800/40 border border-gray-700/50">
-              <div className="h-3 w-3 mx-auto text-gray-600 text-xs text-center">—</div>
-            </div>
+            {(() => {
+              const isVirdSelected = selectedRunes.some(r => r.name === "Вирд");
+              return (
+                <>
+                  <button
+                    onClick={() => handleRuneSelect({
+                      name: "Вирд",
+                      symbol: " ",
+                      upright: "Пустая руна символизирует судьбу, которая ещё не написана. Это пространство бесконечных возможностей.",
+                      reversed: "Пустая руна не имеет перевёрнутого значения - тайна остаётся тайной.",
+                      element: "mystery",
+                      keywords: ["судьба", "неизвестность", "тайна", "карма", "божественное"]
+                    } as Rune, false)}
+                    disabled={isVirdSelected}
+                    className={`group p-3 rounded-lg border-2 transition-all ${
+                      isVirdSelected
+                        ? "bg-gray-900/50 border-gray-700/30 opacity-40 cursor-not-allowed"
+                        : "bg-purple-950/80 hover:bg-purple-900/80 border-purple-600/70 hover:border-purple-500 hover:scale-110"
+                    }`}
+                    title={isVirdSelected ? "Вирд (уже выбрана)" : "Вирд (пустая руна)"}
+                  >
+                    <div className="text-4xl text-center text-purple-200">&nbsp;</div>
+                    <div className="text-xs text-purple-300 text-center mt-1 font-cormorant font-bold">
+                      Вирд
+                    </div>
+                  </button>
+                  <div className="p-1 rounded bg-gray-800/40 border border-gray-700/50">
+                    <div className="h-3 w-3 mx-auto text-gray-600 text-xs text-center">—</div>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
       </div>
