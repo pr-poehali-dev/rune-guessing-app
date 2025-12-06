@@ -5,6 +5,7 @@ import { elderFuthark, type Rune, type RuneSpread } from "@/data/runes";
 
 interface ManualSpreadSelectorProps {
   onComplete: (spread: RuneSpread, runes: Array<Rune & { reversed: boolean }>) => void;
+  onCancel?: () => void;
 }
 
 const manualSpreads: RuneSpread[] = [
@@ -45,7 +46,7 @@ const manualSpreads: RuneSpread[] = [
   }
 ];
 
-export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelectorProps) {
+export default function ManualSpreadSelector({ onComplete, onCancel }: ManualSpreadSelectorProps) {
   const [selectedSpread, setSelectedSpread] = useState<RuneSpread | null>(null);
   const [selectedRunes, setSelectedRunes] = useState<Array<Rune & { reversed: boolean }>>([]);
   const [currentPosition, setCurrentPosition] = useState(0);
@@ -86,6 +87,18 @@ export default function ManualSpreadSelector({ onComplete }: ManualSpreadSelecto
     return (
       <div className="space-y-8">
         <div className="text-center space-y-3">
+          {onCancel && (
+            <div className="flex justify-start mb-4">
+              <Button
+                onClick={onCancel}
+                variant="outline"
+                className="wooden-button"
+              >
+                <Icon name="ArrowLeft" className="mr-2 h-4 w-4" />
+                К обычным раскладам
+              </Button>
+            </div>
+          )}
           <h2 className="text-4xl md:text-5xl font-cinzel font-bold text-amber-100">
             Выберите вид расклада
           </h2>

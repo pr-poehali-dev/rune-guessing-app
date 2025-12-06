@@ -414,7 +414,7 @@ export default function Index() {
                     Распознать расклад с камеры
                   </Button>
                   <Button
-                    onClick={() => setIsManualMode(!isManualMode)}
+                    onClick={() => setIsManualMode(true)}
                     size="lg"
                     className="wooden-button font-cinzel"
                     variant={isManualMode ? "default" : "outline"}
@@ -432,7 +432,10 @@ export default function Index() {
                   />
                 </div>
                 {isManualMode ? (
-                  <ManualSpreadSelector onComplete={handleManualComplete} />
+                  <ManualSpreadSelector 
+                    onComplete={handleManualComplete}
+                    onCancel={() => setIsManualMode(false)}
+                  />
                 ) : (
                   <SpreadSelector onSelectSpread={drawRunes} isDrawing={isDrawing} />
                 )}
