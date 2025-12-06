@@ -118,7 +118,7 @@ export default function Index() {
   };
 
   const getRuneText = (drawnRune: DrawnRune): string => {
-    if (drawnRune.name === "Один") {
+    if (drawnRune.name === "Вирд") {
       return "Пустая руна символизирует судьбу, которая ещё не написана. Здесь начинается область божественной тайны.";
     }
     const runeData = elderFuthark.find(r => r.id === drawnRune.id)!;
@@ -128,10 +128,10 @@ export default function Index() {
   const generateInterpretation = (runes: DrawnRune[], spread: RuneSpread) => {
     let text = '';
     
-    const hasOdinRune = runes.some(r => r.name === "Один");
+    const hasOdinRune = runes.some(r => r.name === "Вирд");
     
     if (hasOdinRune) {
-      text += `✦ Руна Одина в вашем раскладе ✦\n\n`;
+      text += `✦ Руна Вирд в вашем раскладе ✦\n\n`;
       text += `Появление пустой руны — знак Всеотца, повелителя рун и провидца. Это не просто символ неизвестности, это приглашение довериться высшим силам. `;
       text += `Один говорит: "То, что скрыто от глаз, уже движется в твою сторону. Судьба не требует знания — она требует веры." `;
       text += `Пустая руна указывает на поворотную точку, где старые способы понимания уже не работают. Это момент абсолютной трансформации.\n\n`;
@@ -141,7 +141,7 @@ export default function Index() {
     if (spread.id === "one-rune") {
       const rune = runes[0];
       
-      if (rune.name === "Один") {
+      if (rune.name === "Вирд") {
         text += `Вы задали вопрос, но руны молчат — и это самый мощный ответ. `;
         text += `Пустая руна говорит: ваш вопрос превосходит рамки предсказаний. Это вопрос кармический, судьбоносный. `;
         text += `Ответ придёт не через логику или знаки, а через опыт. Живите, наблюдайте, доверяйте процессу. `;
@@ -258,10 +258,10 @@ export default function Index() {
     text += `\n\n`;
     
     if (hasOdinRune) {
-      const odinCount = runes.filter(r => r.name === "Один").length;
+      const odinCount = runes.filter(r => r.name === "Вирд").length;
       if (odinCount === 1) {
         text += `Одна пустая руна среди других — это точка трансформации в вашем раскладе. `;
-        text += `Там, где появляется руна Одина, обычные законы предсказаний не работают. Это область божественного вмешательства, кармических узлов и судьбоносных поворотов. `;
+        text += `Там, где появляется руна Вирд, обычные законы предсказаний не работают. Это область божественного вмешательства, кармических узлов и судьбоносных поворотов. `;
         text += `Другие руны показывают путь, но пустая руна напоминает: финальное слово всегда остаётся за высшими силами.\n\n`;
       } else {
         text += `${odinCount} пустых руны — редкий и мощный знак! `;
@@ -280,7 +280,7 @@ export default function Index() {
       text += `Вселенная поддерживает ваши намерения. Действуйте смело и уверенно. `;
     }
     
-    const elements = runes.filter(r => r.name !== "Один").map(r => translateElement(r.element));
+    const elements = runes.filter(r => r.name !== "Вирд").map(r => translateElement(r.element));
     const elementCounts = elements.reduce((acc, el) => {
       acc[el] = (acc[el] || 0) + 1;
       return acc;
