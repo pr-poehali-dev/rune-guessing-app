@@ -10,6 +10,7 @@ import SavedReadings from "@/components/SavedReadings";
 import RuneLibrary from "@/components/RuneLibrary";
 import RuneTalismans from "@/components/RuneTalismans";
 import RunestavCreator from "@/components/RunestavCreator";
+import ManualSpreadSelector from "@/components/ManualSpreadSelector";
 
 
 interface DrawnRune extends Rune {
@@ -32,6 +33,7 @@ export default function Index() {
   const [selectedRuneInfo, setSelectedRuneInfo] = useState<Rune | null>(null);
   const [savedReadings, setSavedReadings] = useState<SavedReading[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isManualMode, setIsManualMode] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('runeReadings');
@@ -272,6 +274,7 @@ export default function Index() {
     setSelectedSpread(null);
     setDrawnRunes([]);
     setInterpretation("");
+    setIsManualMode(false);
   };
 
   const saveReading = () => {
@@ -307,6 +310,13 @@ export default function Index() {
     if (file) {
       toast.info("Функция распознавания рун в разработке");
     }
+  };
+
+  const handleManualComplete = (spread: RuneSpread, runes: DrawnRune[]) => {
+    setSelectedSpread(spread);
+    setDrawnRunes(runes);
+    generateInterpretation(spread, runes);
+    setIsManualMode(false);
   };
 
   return (
@@ -357,7 +367,7 @@ export default function Index() {
           <TabsContent value="spreads" className="space-y-6">
             {!selectedSpread ? (
               <>
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center gap-4 mb-6">
                   <Button
                     onClick={handleCameraUpload}
                     size="lg"
@@ -365,6 +375,15 @@ export default function Index() {
                   >
                     <Icon name="Camera" className="mr-2 h-5 w-5" />
                     Распознать расклад с камеры
+                  </Button>
+                  <Button
+                    onClick={() => setIsManualMode(!isManualMode)}
+                    size="lg"
+                    className="wooden-button font-cinzel"
+                    variant={isManualMode ? "default" : "outline"}
+                  >
+                    <Icon name="Hand" className="mr-2 h-5 w-5" />
+                    Самостоятельный расклад
                   </Button>
                   <input
                     ref={fileInputRef}
@@ -375,7 +394,11 @@ export default function Index() {
                     className="hidden"
                   />
                 </div>
-                <SpreadSelector onSelectSpread={drawRunes} isDrawing={isDrawing} />
+                {isManualMode ? (
+                  <ManualSpreadSelector onComplete={handleManualComplete} />
+                ) : (
+                  <SpreadSelector onSelectSpread={drawRunes} isDrawing={isDrawing} />
+                )}
               </>
             ) : (
               <div className="space-y-6">
