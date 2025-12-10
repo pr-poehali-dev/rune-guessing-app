@@ -357,7 +357,7 @@ export default function Index() {
   };
 
   return (
-    <div className="min-h-screen relative py-12 mx-[712px] my-[9px] px-11 rounded-none">
+    <div className="min-h-screen relative py-12 px-4 sm:px-6 lg:px-8">
       <div 
         className="fixed inset-0 bg-no-repeat bg-cover bg-center -z-10" 
         style={{ 
