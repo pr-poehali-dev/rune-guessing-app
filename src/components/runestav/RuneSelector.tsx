@@ -44,10 +44,7 @@ export default function RuneSelector({
     <TooltipProvider delayDuration={300}>
       <Card className="p-6 bg-card/80 backdrop-blur border-primary/30">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-cinzel text-3xl font-bold flex items-center gap-2">
-            <Icon name="Grid3x3" className="h-7 w-7" />
-            Elder Futhark
-          </h3>
+          <h3 className="font-cinzel text-3xl font-bold flex items-center gap-2">Старший Футарк</h3>
           {hasAnalysis && (
             <div className="flex gap-3 text-sm">
               <div className="flex items-center gap-1.5">
